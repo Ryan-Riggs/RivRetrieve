@@ -12,7 +12,6 @@
 #' @import BBmisc
 #' @import rvest
 #' @import data.table
-#' @examples
 #' @export
 
 
