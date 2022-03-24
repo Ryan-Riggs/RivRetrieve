@@ -6,7 +6,12 @@
 #' @param site Chilean gauge number
 #'
 #' @return data frame of discharge time-series
-#'
+#' @import devtools
+#' @import RSelenium
+#' @import dplyr
+#' @import BBmisc
+#' @import rvest
+#' @import data.table
 #' @examples
 #' @export
 
