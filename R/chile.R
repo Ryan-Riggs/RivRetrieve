@@ -12,6 +12,9 @@
 #' @import BBmisc
 #' @import rvest
 #' @import data.table
+#' @example df = chile('01201005')
+#' plot(df$Date, df$Q, type='l')
+#'
 #' @export
 
 
