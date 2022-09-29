@@ -3,6 +3,7 @@
 export(brazil)
 export(chile)
 export(japan)
+export(uk)
 import(BBmisc)
 import(RSelenium)
 import(data.table)
