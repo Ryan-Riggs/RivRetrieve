@@ -1,7 +1,7 @@
 #' @title brazil
 #' @name brazil
 #'
-#' @description Provides access to Japanese gauge data
+#' @description Provides access to Brazilian gauge data
 #'
 #' @param site Brazilian gauge number
 #'

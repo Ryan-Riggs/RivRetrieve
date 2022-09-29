@@ -10,7 +10,7 @@
 data frame of discharge time-series
 }
 \description{
-Provides access to Japanese gauge data
+Provides access to Brazilian gauge data
 }
 \examples{
 df = brazil('12650000')
