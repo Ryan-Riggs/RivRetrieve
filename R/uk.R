@@ -26,11 +26,11 @@
 ##They are part of the output and nothing is currently filtered out.
 
 library(data.table)
-##Path\\to\\uk\\sites.csv
-sites= fread("E:\\research\\GlobalGaugeData\\UK\\sites\\sites.csv")
 ################################################################################
 ##Discharge download functions.
 ################################################################################
+newWeb = "http://environment.data.gov.uk/hydrology/id/measures/"
+dischargeLoc = "-flow-m-86400-m3s-qualified/readings.csv"
 
 uk = function(site){
   web = site
