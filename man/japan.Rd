@@ -13,6 +13,6 @@ data frame of discharge time-series
 Provides access to Japanese gauge data
 }
 \examples{
-df = chile('01201005')
+df = japan('301011281104010', 2019, 2022)
 plot(df$Date, df$Q, type='l')
 }

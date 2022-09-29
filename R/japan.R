@@ -13,7 +13,7 @@
 #' @import rvest
 #' @import data.table
 #' @examples
-#' df = chile('01201005')
+#' df = japan('301011281104010', 2019, 2022)
 #' plot(df$Date, df$Q, type='l')
 #' @export
 
