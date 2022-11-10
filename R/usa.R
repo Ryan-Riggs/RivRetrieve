@@ -50,7 +50,4 @@ usa = function(site){
   }
   return(NA)
 }
-################################################################################
-##Example run
-df = usa(Gage_df$site_no[10])
-plot(df$Date, df$Q, type='l', xlab='Date', ylab='Discharge (cms)')
+
