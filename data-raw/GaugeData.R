@@ -25,4 +25,19 @@ canada_sites$site=as.character(canada_sites$site)
 canada_sites$latitude=as.numeric(canada_sites$latitude)
 canada_sites$longitude=as.numeric(canada_sites$longitude)
 
-usethis::use_data(chile_sites, brazil_sites,canada_sites, overwrite = TRUE)
+japan_sites = data.table::fread("E:\\research\\GSIM\\GSIM_metadata\\GSIM_catalog\\GSIM_metadata.csv")
+japan_sites = japan_sites[japan_sites$reference.db=="mlit",]
+japan_sites=japan_sites[,c('reference.no', 'latitude','longitude')]
+colnames(japan_sites) = c('site', 'latitude', 'longitude')
+japan_sites$site=as.character(japan_sites$site)
+japan_sites$latitude=as.numeric(japan_sites$latitude)
+japan_sites$longitude=as.numeric(japan_sites$longitude)
+
+uk_sites= data.table::fread("E:\\research\\GlobalGaugeData\\UK\\sites\\sites.csv")
+uk_sites=uk_sites[,c('@id', 'lat','long')]
+colnames(uk_sites) = c('site', 'latitude', 'longitude')
+uk_sites$site=as.character(uk_sites$site)
+uk_sites$latitude=as.numeric(uk_sites$latitude)
+uk_sites$longitude=as.numeric(uk_sites$longitude)
+
+usethis::use_data(chile_sites, brazil_sites,canada_sites,japan_sites,uk_sites, overwrite = TRUE)
