@@ -40,4 +40,39 @@ uk_sites$site=as.character(uk_sites$site)
 uk_sites$latitude=as.numeric(uk_sites$latitude)
 uk_sites$longitude=as.numeric(uk_sites$longitude)
 
-usethis::use_data(chile_sites, brazil_sites,canada_sites,japan_sites,uk_sites, overwrite = TRUE)
+library(dataRetrieval)
+library(dplyr)
+code='00060'
+states = state.abb
+sites_list = list()
+for(i in 1:length(states)){
+  sites <- whatNWISsites(stateCd = states[i],parameterCd=code,hasDataTypeCd="dv")
+  sites_list[[i]] = sites
+}
+sites = data.table::rbindlist(sites_list)
+Gage_df = sites
+Gage_df = Gage_df%>%select("site_no", "dec_lat_va", "dec_long_va")
+usa_sites=Gage_df
+colnames(usa_sites) = c('site', 'latitude', 'longitude')
+usa_sites$site=as.character(usa_sites$site)
+usa_sites$latitude=as.numeric(usa_sites$latitude)
+usa_sites$longitude=as.numeric(usa_sites$longitude)
+
+library(rvest)
+library(RSelenium)
+library(jsonlite)
+library(data.table)
+library(BBmisc)
+sitesWebsite= 'https://hubeau.eaufrance.fr/api/v1/hydrometrie/referentiel/stations?format=json&size=10000'
+french_sites = fromJSON(sitesWebsite)$data
+french_sites = french_sites[!is.na(french_sites$date_ouverture_station),]
+french_sites=french_sites[,c('code_station', 'latitude_station', 'longitude_station')]
+colnames(french_sites) = c('site', 'latitude', 'longitude')
+french_sites$site=as.character(french_sites$site)
+french_sites$latitude=as.numeric(french_sites$latitude)
+french_sites$longitude=as.numeric(french_sites$longitude)
+
+
+
+
+usethis::use_data(chile_sites, brazil_sites,canada_sites,japan_sites,uk_sites,usa_sites,french_sites, overwrite = TRUE)
