@@ -2,10 +2,9 @@
 % Please edit documentation in R/usa.R
 \name{usa}
 \alias{usa}
-\alias{usgs_q_processing}
 \title{usa}
 \usage{
-usgs_q_processing(usgs_q)
+usa(site)
 }
 \arguments{
 \item{site}{US gauge number}

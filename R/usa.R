@@ -34,20 +34,15 @@
 ################################################################################
 ##Discharge download and processing functions.
 ################################################################################
-usgs_q_processing = function(usgs_q){
+
+usa = function(site){
+  usgs_q <- readNWISdv(site,'00060')
   q_v = as.vector(usgs_q[,4])
   q_c = as.character(usgs_q[4])
   q_n = as.numeric(q_v)
   Q= q_n *0.02832
   usgs_q$Q = Q
-  return(usgs_q)
-}
-
-usa = function(site){
-  usgs = try(usgs_q_processing(rawDailyData <- readNWISdv(site,'00060')))
-  if(!is.error(usgs)){
-    return(usgs[,c('Date','Q')])
-  }
-  return(NA)
+  usgs=usgs_q
+  return(usgs[,c('Date','Q')])
 }
 
