@@ -14,7 +14,7 @@
 #' @import rvest
 #' @import data.table
 #' @examples
-#' df = france('K027401001')
+#' df = australia('403213')
 #' plot(df$Date, df$Q, type='l')
 #' @export
 

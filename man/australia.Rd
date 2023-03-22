@@ -16,6 +16,6 @@ data frame of discharge time-series
 Provides access to Australian gauge data
 }
 \examples{
-df = france('K027401001')
+df = australia('403213')
 plot(df$Date, df$Q, type='l')
 }

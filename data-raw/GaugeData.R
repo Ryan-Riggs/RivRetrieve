@@ -75,14 +75,14 @@ french_sites$longitude=as.numeric(french_sites$longitude)
 library(bomWater)
 library(BBmisc)
 library(data.table)
-australia_sites = get_station_list(parameter_type = "Water Course Discharge")
-australia_sites=australia_sites[,c('station_no', 'station_latitude', 'station_longitude')]
-colnames(australia_sites) = c('site', 'latitude', 'longitude')
-australia_sites$site=as.character(australia_sites$site)
-australia_sites$latitude=as.numeric(australia_sites$latitude)
-australia_sites$longitude=as.numeric(australia_sites$longitude)
+australian_sites = get_station_list(parameter_type = "Water Course Discharge")
+australian_sites=australian_sites[,c('station_no', 'station_latitude', 'station_longitude')]
+colnames(australian_sites) = c('site', 'latitude', 'longitude')
+australian_sites$site=as.character(australian_sites$site)
+australian_sites$latitude=as.numeric(australian_sites$latitude)
+australian_sites$longitude=as.numeric(australian_sites$longitude)
 
 
 
 
-usethis::use_data(chile_sites, brazil_sites,canada_sites,japan_sites,uk_sites,usa_sites,french_sites,australia_sites, overwrite = TRUE)
+usethis::use_data(chile_sites, brazil_sites,canada_sites,japan_sites,uk_sites,usa_sites,french_sites,australian_sites, overwrite = TRUE)
