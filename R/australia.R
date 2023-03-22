@@ -8,7 +8,7 @@
 #' @return data frame of discharge time-series
 #' @import devtools
 #' @import RSelenium
-#' @import bomwater
+#' @import bomWater
 #' @import data.table
 #' @import BBmisc
 #' @import rvest
