@@ -21,14 +21,14 @@
 ##Date: 3/15/2022
 
 
-##Remove bug in dataRetrieval package.
-remove_has_internet <- function()
-{
-  unlockBinding(sym = "has_internet", asNamespace("curl"))
-  assign("has_internet", function() return(TRUE), envir = asNamespace("curl"))
-  lockBinding(sym = "has_internet", asNamespace("curl"))
-}
-remove_has_internet()
+# ##Remove bug in dataRetrieval package.
+# remove_has_internet <- function()
+# {
+#   unlockBinding(sym = "has_internet", asNamespace("curl"))
+#   assign("has_internet", function() return(TRUE), envir = asNamespace("curl"))
+#   lockBinding(sym = "has_internet", asNamespace("curl"))
+# }
+# remove_has_internet()
 
 
 ################################################################################

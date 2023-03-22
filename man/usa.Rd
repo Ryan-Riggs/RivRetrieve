@@ -2,10 +2,10 @@
 % Please edit documentation in R/usa.R
 \name{usa}
 \alias{usa}
-\alias{remove_has_internet}
+\alias{usgs_q_processing}
 \title{usa}
 \usage{
-remove_has_internet()
+usgs_q_processing(usgs_q)
 }
 \arguments{
 \item{site}{US gauge number}
