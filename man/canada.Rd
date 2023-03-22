@@ -2,10 +2,9 @@
 % Please edit documentation in R/canada.R
 \name{canada}
 \alias{canada}
-\alias{qDownload}
 \title{canada}
 \usage{
-qDownload(site)
+canada(site)
 }
 \arguments{
 \item{site}{Canada gauge number}

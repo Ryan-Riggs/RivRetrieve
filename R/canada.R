@@ -21,7 +21,7 @@
 ################################################################################
 ##Discharge download functions.
 ################################################################################
-qDownload = function(site){
+canada = function(site){
   can = try(hy_daily_flows(site))
   if(is.error(can)){
     return(NA)
