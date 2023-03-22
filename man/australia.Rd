@@ -7,7 +7,7 @@
 australia(site)
 }
 \arguments{
-\item{site}{French gauge number}
+\item{site}{Australian gauge number}
 }
 \value{
 data frame of discharge time-series

@@ -7,7 +7,7 @@
 canada(site)
 }
 \arguments{
-\item{site}{Canada gauge number}
+\item{site}{Canadian gauge number}
 }
 \value{
 data frame of discharge time-series

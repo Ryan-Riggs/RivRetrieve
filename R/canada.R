@@ -3,7 +3,7 @@
 #'
 #' @description Provides access to Canadian gauge data
 #'
-#' @param site Canada gauge number
+#' @param site Canadian gauge number
 #'
 #' @return data frame of discharge time-series
 #' @import devtools

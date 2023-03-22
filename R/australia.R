@@ -3,7 +3,7 @@
 #'
 #' @description Provides access to Australian gauge data
 #'
-#' @param site French gauge number
+#' @param site Australian gauge number
 #'
 #' @return data frame of discharge time-series
 #' @import devtools
