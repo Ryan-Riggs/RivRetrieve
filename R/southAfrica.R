@@ -13,6 +13,7 @@
 #' @import BBmisc
 #' @import rvest
 #' @import data.table
+#' @import stringr
 #' @examples
 #' df = southAfrica('X3H023')
 #' plot(df$Date, df$Q, type='l')
