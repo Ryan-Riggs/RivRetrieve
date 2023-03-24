@@ -26,19 +26,19 @@
 ##########################################################################################################
 ##website
 ##########################################################################################################
-seperateFun=function(x){
-  sub=x%>%str_split(' +')
-  sub=unlist(sub)
-  output=data.table(t(sub))
-  if(ncol(output)!=3){
-    return(NA)
-  }
-  colnames(output) = c('Date', 'Q', 'Quality')
-  output$Q=as.numeric(output$Q)
-  output$Date = as.Date(output$Date, format='%Y%m%d')
-  return(output)
-}
 southAfrica=function(f){
+  seperateFun=function(x){
+    sub=x%>%str_split(' +')
+    sub=unlist(sub)
+    output=data.table(t(sub))
+    if(ncol(output)!=3){
+      return(NA)
+    }
+    colnames(output) = c('Date', 'Q', 'Quality')
+    output$Q=as.numeric(output$Q)
+    output$Date = as.Date(output$Date, format='%Y%m%d')
+    return(output)
+  }
   web='https://www.dws.gov.za/Hydrology/Verified/HyData.aspx?Station='
   end='100.00&DataType=Daily&StartDT=1900-01-01&EndDT=2023-03-22&SiteType=RIV'
   comb=paste0(web, f, end)

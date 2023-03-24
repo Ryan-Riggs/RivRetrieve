@@ -2,10 +2,9 @@
 % Please edit documentation in R/southAfrica.R
 \name{southAfrica}
 \alias{southAfrica}
-\alias{seperateFun}
 \title{southAfrica}
 \usage{
-seperateFun(x)
+southAfrica(f)
 }
 \arguments{
 \item{site}{South African gauge number}
