@@ -4,6 +4,8 @@ usethis::use_data(GaugeData, overwrite = TRUE)
 file.create("R/data.R")
 usethis::use_git()
 
+library(data.table)
+
 chile_sites=foreign::read.dbf('E:\\research\\GlobalGaugeData\\Chile\\chile_sites.dbf')
 chile_sites = chile_sites[,c('codigo_esta', 'latitud','longitud')]
 colnames(chile_sites) = c('site', 'latitude', 'longitude')
@@ -84,5 +86,12 @@ australian_sites$longitude=as.numeric(australian_sites$longitude)
 
 
 
+SouthAfrican_sites = rbindlist(lapply(list.files('E:\\research\\GlobalGaugeData\\SouthAfrica\\sites\\', full.names=TRUE), fread))
+SouthAfrican_sites=SouthAfrican_sites[,c('Station No', 'Latitude', 'Longitude')]
+colnames(SouthAfrican_sites) = c('site', 'latitude', 'longitude')
+SouthAfrican_sites$site=as.character(SouthAfrican_sites$site)
+SouthAfrican_sites$latitude=as.numeric(SouthAfrican_sites$latitude)
+SouthAfrican_sites$longitude=as.numeric(SouthAfrican_sites$longitude)
+southAfrican_sites=SouthAfrican_sites
 
-usethis::use_data(chile_sites, brazil_sites,canada_sites,japan_sites,uk_sites,usa_sites,french_sites,australian_sites, overwrite = TRUE)
+usethis::use_data(chile_sites, brazil_sites,canada_sites,japan_sites,uk_sites,usa_sites,french_sites,australian_sites,southAfrican_sites, overwrite = TRUE)
