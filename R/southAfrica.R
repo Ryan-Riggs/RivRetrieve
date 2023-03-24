@@ -27,7 +27,15 @@
 ##website
 ##########################################################################################################
 southAfrica=function(f){
-  seperateFun=function(x){
+  web='https://www.dws.gov.za/Hydrology/Verified/HyData.aspx?Station='
+  end='100.00&DataType=Daily&StartDT=1900-01-01&EndDT=2023-03-22&SiteType=RIV'
+  comb=paste0(web, f, end)
+  data=html_session(comb)%>%html_element('body')%>%html_text('pre')
+  data = str_split(data, '\n')
+  data = unlist(data)
+  data = as.list(data)
+  data = data[11:length(data)]
+  data_sub=lapply(data, function(x){
     sub=x%>%str_split(' +')
     sub=unlist(sub)
     output=data.table(t(sub))
@@ -38,16 +46,7 @@ southAfrica=function(f){
     output$Q=as.numeric(output$Q)
     output$Date = as.Date(output$Date, format='%Y%m%d')
     return(output)
-  }
-  web='https://www.dws.gov.za/Hydrology/Verified/HyData.aspx?Station='
-  end='100.00&DataType=Daily&StartDT=1900-01-01&EndDT=2023-03-22&SiteType=RIV'
-  comb=paste0(web, f, end)
-  data=html_session(comb)%>%html_element('body')%>%html_text('pre')
-  data = str_split(data, '\n')
-  data = unlist(data)
-  data = as.list(data)
-  data = data[11:length(data)]
-  data_sub=lapply(data, seperateFun)
+  })
   data_sub = data_sub[!is.na(data_sub)]
   data_sub = rbindlist(data_sub)
   return(data_sub)
