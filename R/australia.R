@@ -6,6 +6,7 @@
 #' @param site Australian gauge number
 #'
 #' @return data frame of discharge time-series
+#' @import bomWater
 #' @import devtools
 #' @import RSelenium
 #' @import bomWater
