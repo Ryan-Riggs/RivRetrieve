@@ -14,6 +14,7 @@ data frame of discharge time-series
 }
 \description{
 Provides access to Australian gauge data
+Remotes: git::https://github.com/hadley/ggplot2.git
 }
 \examples{
 df = australia('403213')
