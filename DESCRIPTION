@@ -12,5 +12,5 @@ LazyData: true
 RoxygenNote: 7.2.1
 Depends: 
     R (>= 2.10)
-Imports: devtools, RSelenium,dplyr,BBmisc,rvest,data.table
+Imports: devtools, RSelenium,dplyr,BBmisc,rvest,data.table,bomWater
 Remotes: buzacott/bomWater
