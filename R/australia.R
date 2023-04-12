@@ -7,7 +7,6 @@
 #'
 #' @return data frame of discharge time-series
 #' @import bomWater
-#' @Remote: git::https://github.com/buzacott/bomWater.git
 #' @import devtools
 #' @import RSelenium
 #' @import bomWater
