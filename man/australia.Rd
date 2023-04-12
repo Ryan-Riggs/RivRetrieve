@@ -14,7 +14,7 @@ data frame of discharge time-series
 }
 \description{
 Provides access to Australian gauge data
-Remotes:: buzacott/bomWater
+Remotes: buzacott/bomWater
 }
 \examples{
 df = australia('403213')
