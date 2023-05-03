@@ -55,7 +55,7 @@ brazil = function(site){
   out = paste0(outpath, site, ".zip")
   try(download.file(files, out, method = "curl"))
   a = unzip(out)
-  data = try(read.table(unzip(a[grep("vazoes", a)]), sep = ";", header = TRUE))
+  data = try(read.table(unzip(a[grep("vazoes", a)]), sep = ";", header = TRUE,fileEncoding = "Latin1"))
   if(!is.error(data)){
     data1 = data[9:nrow(data),]
     cols = data1[1:78]
