@@ -4,6 +4,12 @@
 #' @description Provides access to Japanese gauge data
 #'
 #' @param site Japanese gauge number
+#' @param variable Character. Either `stage` or `discharge`.
+#' @param start_date Character. Optional start date with format
+#'   YYYY-MM-DD. Default is 1900-01-01.
+#' @param end_date Character. End date with format YYYY-MM-DD.
+#'   Default is the current date.
+#' @param ... Additional arguments. None implemented.
 #'
 #' @return data frame of discharge time-series
 #' @import devtools
@@ -12,89 +18,98 @@
 #' @import BBmisc
 #' @import rvest
 #' @import data.table
+#' @import lubridate
 #' @examples
-#' df = japan('301011281104010', 2019, 2022)
+#' start_date <- as.Date("2019-01-01")
+#' end_date <- as.Date("2022-12-31")
+#' df <- japan("301011281104010", "discharge", start_date, end_date)
 #' plot(df$Date, df$Q, type='l')
 #' @export
+japan <- function(site,
+                  variable = "stage",
+                  start_date = NULL,
+                  end_date = NULL,
+                  ...) {
 
+  path <- "http://www1.river.go.jp/cgi-bin/DspWaterData.exe"
 
+  if (is.null(start_date))
+    start_date <- "1900-01-01"
 
-##Author: Ryan Riggs
-##Date: 9/29/2022
-#########################################################
-library(data.table)
-library(BBmisc)
-library(RSelenium)
-library(rvest)
-path = "http://www1.river.go.jp/cgi-bin/DspWaterData.exe?KIND=6&ID="
+  ## If `end_date` is not specified then use the current date
+  if (is.null(end_date))
+    end_date <- Sys.time() %>%
+      as.Date() %>%
+      format("%Y-%m-%d")
 
-output = function(f){
-  day = paste0(f, '01')
-  website = paste0(path, site, "&BGNDATE=", start, "&ENDDATE=", ending)
-  file = try(html_session(website)%>%
-               read_html()%>%html_element('body'))
-  if(is.error(file)){next}
-  file1 = file%>%html_table()
-  df = file1[5:nrow(file1),]
-  dts = as.Date(df$X1, format="%Y/%m/%d")
-  df = df[,2:ncol(df)]
-  df = apply(df, 2, as.numeric)
-  df = as.data.frame(df)
-  df1 = rowMeans(df, na.rm = TRUE)
-  df1 = as.data.frame(df1)
-  df1$Date = dts
-  return(df1)
-}
+  ## Divide timeseries into months, because we can only
+  ## scrape data one month at a time.
+  ts <- seq(
+    floor_date(start_date, "month"),
+    floor_date(end_date, "month"),
+    by = "1 month"
+  )
+  dates <- format(ts, format = "%Y%m%d")
 
-japan = function(site, start, end){
-  site=site
-  beginning = start#japan$year.start[i]
-  start = paste0(beginning, "0101")
-  end = end#japan$year.end[i]
-  ending = paste0(end, "1231")
-  rng = beginning:end
+  ## Providing ending for URL (arbitrary, so long as further ahead than one month from the start date)
+  ending <- format(ceiling_date(end_date, "month") - days(1), "%Y%m%d")
 
-  dayrng = c('01','02','03','04','05','06','07','08','09','10','11','12')
+  ## What should be downloaded?
+  if (variable == "stage") {
+    kind <- 2
+    colnm <- "H"
+  } else if (variable == "discharge") {
+    kind <- 6
+    colnm <- "Q"
+  }
 
-  dtList = list()
-  for(r in 1:length(rng)){
-    #print(r)
-    year = rng[r]
-    v = as.vector(12)
-    for(j in 1:length(dayrng)){
-      v[j] = paste0(year,dayrng[j],'01')
+  tab <- list()
+  for (k in 1:length(dates)){
+    day <- dates[k]
+    website <- paste0(
+      path,
+      "?KIND=", kind,
+      "&ID=", site,
+      "&BGNDATE=", day,
+      "&ENDDATE=", ending
+    )
+    file <- try(
+      html_session(website) %>%
+      read_html() %>%
+      html_element("body")
+    )
+    if (inherits(file, "try-error")) {
+      next
     }
-    dtList[[r]] = v
+    file1 <- try(file %>% html_table())
+    if (inherits(file1, "try-error")) {
+      next
+    }
+    ## Remove header
+    df <- file1[5:nrow(file1), ]
+    ## First column is the time
+    dts <- as.Date(df[[1]], format = "%Y/%m/%d")
+    ## The other columns are the data, taken at hourly intervals
+    df <- df[, 2:ncol(df)]
+    df <- df %>%
+      mutate(across(everything(), ~na_if(., ""))) %>%
+      as_tibble()
+    ## We use `as.numeric` to implicitly convert non-numeric values
+    ## to NA. This throws a warning which we can safely ignore.
+    df <- suppressWarnings(
+      df %>% mutate(across(everything(), as.numeric))
+    )
+    vals <- rowMeans(df, na.rm = TRUE) %>% na_if(NaN)
+    df <- tibble(Date = dts, Value = vals)
+    tab[[k]] <- df
   }
-  dates = unlist(dtList)
-
-  tab = list()
-  for(k in 1:length(dates)){
-    day = dates[k]
-    website = paste0(path, site, "&BGNDATE=", day, "&ENDDATE=", ending)
-    file = try(html_session(website)%>%
-                 read_html()%>%html_element('body'))
-    if(is.error(file)){next}
-    file1 = try(file%>%html_table())
-    if(is.error(file1)){next}
-    ##
-    df = file1[5:nrow(file1),]
-    dts = as.Date(df$X1, format="%Y/%m/%d")
-    df = df[,2:ncol(df)]
-    df = apply(df, 2, as.numeric)
-    df = as.data.frame(df)
-    df1 = rowMeans(df, na.rm = TRUE)
-    df1 = as.data.frame(df1)
-    df1$Date = dts
-    tab[[k]] = df1
-    #print(k)
-  }
-
-  tabOut=rbindlist(tab)
-  tabOut = tabOut[!is.na(tabOut$df1)]
-  colnames(tabOut) = c("Q", "Date")
-  return(tabOut)
+  ## Join monthly sections together, and filter NA
+  df <- do.call("rbind", tab) %>%
+    filter(!is.na(Value))
+  ## Make sure timeseries is complete
+  ts <- tibble(Date = seq.Date(start_date, end_date, by = "1 day"))
+  df <- ts %>%
+    left_join(df, by = "Date") %>%
+    rename(!!colnm := Value)
+  return(df)
 }
-
-
-
