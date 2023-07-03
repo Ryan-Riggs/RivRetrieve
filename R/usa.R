@@ -4,6 +4,11 @@
 #' @description Provides access to USA gauge data
 #'
 #' @param site US gauge number
+#' @param variable Character. Either `stage` or `discharge`.
+#' @param start_date Character. Optional start date with format
+#'   YYYY-MM-DD. Default is 1900-01-01.
+#' @param end_date Character. End date with format YYYY-MM-DD.
+#'   Default is the current date.
 #'
 #' @return data frame of discharge time-series
 #' @import devtools
@@ -14,35 +19,39 @@
 #' @import dplyr
 #' @import BBmisc
 #' @examples
-#' df = usa("02471078")
+#' df = usa("02471078", variable="discharge")
 #' plot(df$Date, df$Q, type='l')
 #' @export
-##Author:Ryan Riggs
-##Date: 3/15/2022
+usa <- function(site,
+                variable = "stage",
+                start_date = NULL,
+                end_date = NULL,
+                ...) {
 
+  if (is.null(start_date))
+    start_date <- as.Date("1900-01-01")
 
-# ##Remove bug in dataRetrieval package.
-# remove_has_internet <- function()
-# {
-#   unlockBinding(sym = "has_internet", asNamespace("curl"))
-#   assign("has_internet", function() return(TRUE), envir = asNamespace("curl"))
-#   lockBinding(sym = "has_internet", asNamespace("curl"))
-# }
-# remove_has_internet()
+  ## if `end_date` is not specified then use the current date
+  if (is.null(end_date))
+    end_date <- Sys.time() %>%
+      as.Date() %>%
+      format("%Y-%m-%d")
 
-
-################################################################################
-##Discharge download and processing functions.
-################################################################################
-
-usa = function(site){
-  usgs_q <- readNWISdv(site,'00060')
-  q_v = as.vector(usgs_q[,4])
-  q_c = as.character(usgs_q[4])
-  q_n = as.numeric(q_v)
-  Q= q_n *0.02832
-  usgs_q$Q = Q
-  usgs=usgs_q
-  return(usgs[,c('Date','Q')])
+  if (variable == "stage") {
+    param_code <- "00065"
+    colnm <- "H"
+    mult <- 0.3048 # ft -> m
+  } else if (variable == "discharge") {
+    param_code <- "00060"
+    colnm <- "Q"
+    mult <- 0.02832 # ft3/s -> m3/s
+  }
+  data <- readNWISdv(site, param_code, start_date, end_date)
+  data <- data %>%
+    dplyr::select(3, 4) %>%
+    setNames(c("Date", "X")) %>%
+    mutate(X = as.numeric(X) * mult) %>%
+    rename(!!colnm := "X") %>%
+    as_tibble()
+  return(data)
 }
-
