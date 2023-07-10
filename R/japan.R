@@ -1,7 +1,7 @@
 #' @title japan
 #' @name japan
 #'
-#' @description Provides access to Japanese gauge data
+#' @description Retrieve Japanese gauge data
 #'
 #' @param site Japanese gauge number
 #' @param variable Character. Either `stage` or `discharge`.
@@ -12,21 +12,16 @@
 #' @param ... Additional arguments. None implemented.
 #'
 #' @return data frame of discharge time-series
-#' @import devtools
-#' @import RSelenium
-#' @import dplyr
-#' @import BBmisc
-#' @import rvest
-#' @import data.table
-#' @import lubridate
 #' @examples
+#' \dontrun{
 #' start_date <- as.Date("2019-01-01")
 #' end_date <- as.Date("2022-12-31")
 #' df <- japan("301011281104010", "discharge", start_date, end_date)
 #' plot(df$Date, df$Q, type='l')
+#' }
 #' @export
 japan <- function(site,
-                  variable = "stage",
+                  variable = "discharge",
                   start_date = NULL,
                   end_date = NULL,
                   ...) {
@@ -105,11 +100,11 @@ japan <- function(site,
   }
   ## Join monthly sections together, and filter NA
   df <- do.call("rbind", tab) %>%
-    filter(!is.na(Value))
+    filter(!is.na(.data$Value))
   ## Make sure timeseries is complete
   ts <- tibble(Date = seq.Date(start_date, end_date, by = "1 day"))
-  df <- ts %>%
-    left_join(df, by = "Date") %>%
-    rename(!!colnm := Value)
+  df <- ts %>% left_join(df, by = "Date")
+  df[[colnm]] <- df[["Value"]]
+  df <- df %>% dplyr::select(-all_of(c("Value")))
   return(df)
 }

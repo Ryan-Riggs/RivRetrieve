@@ -3,16 +3,32 @@
 \name{uk}
 \alias{uk}
 \title{uk}
+\usage{
+uk(site, variable, start_date = NULL, end_date = NULL, ...)
+}
 \arguments{
 \item{site}{UK gauge number}
+
+\item{variable}{Character. Either \code{stage} or \code{discharge}.}
+
+\item{start_date}{Character. Optional start date with format
+YYYY-MM-DD. Default is 1900-01-01.}
+
+\item{end_date}{Character. End date with format YYYY-MM-DD.
+Default is the current date.}
+
+\item{...}{Additional arguments. None implemented.}
 }
 \value{
 data frame of discharge time-series
 }
 \description{
-Provides access to UK gauge data
+Retrieve UK gauge data
 }
 \examples{
-df = uk("http://environment.data.gov.uk/hydrology/id/stations/3c5cba29-2321-4289-a1fd-c355e135f4cb")
-plot(df$Date, df$Q, type='l')
+\dontrun{
+site <- "http://environment.data.gov.uk/hydrology/id/stations/3c5cba29-2321-4289-a1fd-c355e135f4cb"
+x <- uk(site, variable = "discharge")
+plot(x$Date, x$Q, type='l')
+}
 }

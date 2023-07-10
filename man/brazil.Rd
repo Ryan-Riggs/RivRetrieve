@@ -4,12 +4,12 @@
 \alias{brazil}
 \title{brazil}
 \usage{
-brazil(site, variable = "stage", start_date = NULL, end_date = NULL, ...)
+brazil(site, variable = "discharge", start_date = NULL, end_date = NULL, ...)
 }
 \arguments{
 \item{site}{Brazilian gauge number}
 
-\item{variable}{Character. Either `stage` or `discharge`.}
+\item{variable}{Character. Either \code{stage} or \code{discharge}.}
 
 \item{start_date}{Character. Optional start date with format
 YYYY-MM-DD. Default is 1900-01-01.}
@@ -23,9 +23,11 @@ Default is the current date.}
 data frame of discharge time-series
 }
 \description{
-Provides access to Brazilian gauge data
+Retrieve Brazilian gauge data
 }
 \examples{
-df = brazil('12650000')
+\dontrun{
+df <- brazil('12650000')
 plot(df$Date, df$Q, type='l')
+}
 }

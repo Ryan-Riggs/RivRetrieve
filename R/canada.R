@@ -1,7 +1,7 @@
 #' @title canada
 #' @name canada
 #'
-#' @description Provides access to Canadian gauge data
+#' @description Retrieve Canadian gauge data
 #'
 #' @param site Canadian gauge number
 #' @param variable Character. Either `stage` or `discharge`.
@@ -12,19 +12,14 @@
 #' @param ... Additional arguments. None implemented.
 #'
 #' @return data frame of discharge time-series
-#' @import devtools
-#' @import RSelenium
-#' @import dplyr
-#' @import BBmisc
-#' @import rvest
-#' @import data.table
-#' @import tidyhydat
 #' @examples
+#' \dontrun{
 #' df = canada("01AD003")
 #' plot(df$Date, df$Q, type='l')
+#' }
 #' @export
 canada <- function(site,
-                   variable = "stage",
+                   variable = "discharge",
                    start_date = NULL,
                    end_date = NULL,
                    ...) {
@@ -47,12 +42,12 @@ canada <- function(site,
     return(NA)
   }
   data <- data %>%
-    dplyr::select(Date, Value) %>%
-    filter(Date >= start_date & Date <= end_date)
+    dplyr::select(all_of(c("Date", "Value"))) %>%
+    filter(.data$Date >= start_date & .data$Date <= end_date)
   if (variable == "discharge") {
-    data <- data %>% rename(Q = Value)
+    data <- data %>% rename(Q = "Value")
   } else if (variable == "stage") {
-    data <- data %>% rename(H = Value)
+    data <- data %>% rename(H = "Value")
   }
   return(data)
 }

@@ -1,7 +1,7 @@
 #' @title france
 #' @name france
 #'
-#' @description Provides access to French gauge data
+#' @description Retrieve French gauge data
 #'
 #' @param site French gauge number
 #' @param variable Character. Either `stage` or `discharge`.
@@ -12,16 +12,11 @@
 #' @param ... Additional arguments. None implemented.
 #'
 #' @return data frame of discharge time-series
-#' @import devtools
-#' @import RSelenium
-#' @import jsonlite
-#' @import data.table
-#' @import BBmisc
-#' @import rvest
-#' @import data.table
 #' @examples
-#' df = france('K027401001')
+#' \dontrun{
+#' df <- france('K027401001')
 #' plot(df$Date, df$Q, type='l')
+#' }
 #' @export
 france <- function(site,
                    variable = "discharge",

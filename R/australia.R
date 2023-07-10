@@ -1,7 +1,7 @@
 #' @title australia
 #' @name australia
 #'
-#' @description Provides access to Australian gauge data
+#' @description Retrieve Australian gauge data
 #'
 #' @param site Australian gauge number
 #' @param variable Character. Either `stage` or `discharge`.
@@ -12,21 +12,15 @@
 #' @param ... Additional arguments. None implemented.
 #'
 #' @return data frame of discharge time-series
-#' @import bomWater
-#' @import devtools
-#' @import RSelenium
-#' @import bomWater
-#' @import data.table
-#' @import BBmisc
-#' @import rvest
-#' @import data.table
 #' @examples
+#' \dontrun{
 #' df <- australia("403213", "stage")
 #' plot(df$Timestamp, df$Value, type='l')
+#' }
 #' @export
 
 australia <- function(site,
-                      variable = "stage",
+                      variable = "discharge",
                       start_date = NULL,
                       end_date = NULL,
                       ...) {
@@ -53,7 +47,7 @@ australia <- function(site,
     return(NA)
   }
   data <- data %>%
-    mutate(Variable = variable, .before = Value) %>%
-    mutate(Timestamp = as.Date(Timestamp))
+    mutate(Variable = variable, .before = .data$Value) %>%
+    mutate(Timestamp = as.Date(.data$Timestamp))
   return(data)
 }
