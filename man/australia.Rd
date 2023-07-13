@@ -9,6 +9,7 @@ australia(
   variable = "discharge",
   start_date = NULL,
   end_date = NULL,
+  sites = FALSE,
   ...
 )
 }
@@ -23,6 +24,9 @@ YYYY-MM-DD. Default is 1900-01-01.}
 \item{end_date}{Character. End date with format YYYY-MM-DD.
 Default is the current date.}
 
+\item{sites}{Logical. If TRUE, returns a list of measurement
+sites.}
+
 \item{...}{Additional arguments. None implemented.}
 }
 \value{
@@ -33,7 +37,8 @@ Retrieve Australian gauge data
 }
 \examples{
 \dontrun{
-df <- australia("403213", "stage")
+sites <- australia(sites = TRUE)
+df <- australia(sites$site[1], "stage")
 plot(df$Timestamp, df$Value, type='l')
 }
 }

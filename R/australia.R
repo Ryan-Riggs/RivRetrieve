@@ -9,12 +9,15 @@
 #'   YYYY-MM-DD. Default is 1900-01-01.
 #' @param end_date Character. End date with format YYYY-MM-DD.
 #'   Default is the current date.
+#' @param sites Logical. If TRUE, returns a list of measurement
+#'   sites.
 #' @param ... Additional arguments. None implemented.
 #'
 #' @return data frame of discharge time-series
 #' @examples
 #' \dontrun{
-#' df <- australia("403213", "stage")
+#' sites <- australia(sites = TRUE)
+#' df <- australia(sites$site[1], "stage")
 #' plot(df$Timestamp, df$Value, type='l')
 #' }
 #' @export
@@ -23,7 +26,12 @@ australia <- function(site,
                       variable = "discharge",
                       start_date = NULL,
                       end_date = NULL,
+                      sites = FALSE,
                       ...) {
+
+  if (sites) {
+    return(australia_sites)
+  }
 
   if (is.null(start_date))
     start_date <- "1900-01-01"
