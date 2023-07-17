@@ -4,18 +4,41 @@
 \alias{australia}
 \title{australia}
 \usage{
-australia(site)
+australia(
+  site,
+  variable = "discharge",
+  start_date = NULL,
+  end_date = NULL,
+  sites = FALSE,
+  ...
+)
 }
 \arguments{
 \item{site}{Australian gauge number}
+
+\item{variable}{Character. Either \code{stage} or \code{discharge}.}
+
+\item{start_date}{Character. Optional start date with format
+YYYY-MM-DD. Default is 1900-01-01.}
+
+\item{end_date}{Character. End date with format YYYY-MM-DD.
+Default is the current date.}
+
+\item{sites}{Logical. If TRUE, returns a list of measurement
+sites.}
+
+\item{...}{Additional arguments. None implemented.}
 }
 \value{
 data frame of discharge time-series
 }
 \description{
-Provides access to Australian gauge data
+Retrieve Australian gauge data
 }
 \examples{
-df = australia('403213')
-plot(df$Date, df$Q, type='l')
+\dontrun{
+sites <- australia(sites = TRUE)
+df <- australia(sites$site[1], "stage")
+plot(df$Timestamp, df$Value, type='l')
+}
 }

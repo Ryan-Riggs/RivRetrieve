@@ -1,7 +1,7 @@
 #' @title australia
 #' @name australia
 #'
-#' @description Provides access to Australian gauge data
+#' @description Retrieve Australian gauge data
 #'
 #' @param site Australian gauge number
 #' @param variable Character. Either `stage` or `discharge`.
@@ -9,27 +9,29 @@
 #'   YYYY-MM-DD. Default is 1900-01-01.
 #' @param end_date Character. End date with format YYYY-MM-DD.
 #'   Default is the current date.
+#' @param sites Logical. If TRUE, returns a list of measurement
+#'   sites.
 #' @param ... Additional arguments. None implemented.
 #'
 #' @return data frame of discharge time-series
-#' @import bomWater
-#' @import devtools
-#' @import RSelenium
-#' @import bomWater
-#' @import data.table
-#' @import BBmisc
-#' @import rvest
-#' @import data.table
 #' @examples
-#' df <- australia("403213", "stage")
+#' \dontrun{
+#' sites <- australia(sites = TRUE)
+#' df <- australia(sites$site[1], "stage")
 #' plot(df$Timestamp, df$Value, type='l')
+#' }
 #' @export
 
 australia <- function(site,
-                      variable = "stage",
+                      variable = "discharge",
                       start_date = NULL,
                       end_date = NULL,
+                      sites = FALSE,
                       ...) {
+
+  if (sites) {
+    return(australia_sites)
+  }
 
   if (is.null(start_date))
     start_date <- "1900-01-01"
@@ -53,7 +55,7 @@ australia <- function(site,
     return(NA)
   }
   data <- data %>%
-    mutate(Variable = variable, .before = Value) %>%
-    mutate(Timestamp = as.Date(Timestamp))
+    mutate(Variable = variable, .before = .data$Value) %>%
+    mutate(Timestamp = as.Date(.data$Timestamp))
   return(data)
 }

@@ -7,7 +7,7 @@ ending <- "%22],%22start%22:null,%22end%22:null},%22export%22:{%22map%22:%22Shap
 #' @title chile
 #' @name chile
 #'
-#' @description Provides access to Chile gauge data
+#' @description Retrieve Chilean gauge data
 #'
 #' @param site Chilean gauge number
 #' @param variable Character. Either `stage` or `discharge`.
@@ -18,15 +18,11 @@ ending <- "%22],%22start%22:null,%22end%22:null},%22export%22:{%22map%22:%22Shap
 #' @param ... Additional arguments. None implemented.
 #'
 #' @return data frame of discharge time-series
-#' @import devtools
-#' @import RSelenium
-#' @import dplyr
-#' @import BBmisc
-#' @import rvest
-#' @import data.table
 #' @examples
-#' df = chile('01201005')
+#' \dontrun{
+#' df <- chile('01201005')
 #' plot(df$Date, df$Q, type='l')
+#' }
 #' @export
 chile <- function(site,
                   variable = "discharge",
@@ -63,13 +59,14 @@ chile <- function(site,
   page <- noquote(page)
   page <- gsub('"', '', page)
   download.file(page, outpath)
-  sttn <- fread(outpath)
+  sttn <- read_delim(outpath)
+  ## sttn <- fread(outpath)
   sttn$Date <- paste(sttn$agno, sttn$mes, sttn$dia, sep="-")
   sttn$Date <- as.Date(sttn$Date, format = "%Y-%m-%d")
   sttn$valor <- as.numeric(sttn$valor)
   sttn$Q <- sttn$valor
-  df <- tibble(Date = sttn$Date, Q=sttn$Q) %>%
-    arrange(Date) %>%
-    filter(Date >= start_date & Date <= end_date)
+  df <- tibble(Date = sttn$Date, Q = sttn$Q) %>%
+    arrange(.data$Date) %>%
+    filter(.data$Date >= start_date & .data$Date <= end_date)
   return(df)
 }

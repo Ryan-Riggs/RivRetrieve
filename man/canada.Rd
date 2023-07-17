@@ -4,18 +4,30 @@
 \alias{canada}
 \title{canada}
 \usage{
-canada(site)
+canada(site, variable = "discharge", start_date = NULL, end_date = NULL, ...)
 }
 \arguments{
 \item{site}{Canadian gauge number}
+
+\item{variable}{Character. Either \code{stage} or \code{discharge}.}
+
+\item{start_date}{Character. Optional start date with format
+YYYY-MM-DD. Default is 1900-01-01.}
+
+\item{end_date}{Character. End date with format YYYY-MM-DD.
+Default is the current date.}
+
+\item{...}{Additional arguments. None implemented.}
 }
 \value{
 data frame of discharge time-series
 }
 \description{
-Provides access to Canadian gauge data
+Retrieve Canadian gauge data
 }
 \examples{
+\dontrun{
 df = canada("01AD003")
 plot(df$Date, df$Q, type='l')
+}
 }

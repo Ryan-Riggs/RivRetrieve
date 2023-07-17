@@ -4,18 +4,52 @@
 \alias{southAfrica}
 \title{southAfrica}
 \usage{
-southAfrica(f)
+southAfrica(
+  site,
+  variable = "stage",
+  start_date = NULL,
+  end_date = NULL,
+  primary = FALSE,
+  ...
+)
 }
 \arguments{
 \item{site}{South African gauge number}
+
+\item{variable}{Character. Either \code{stage} or \code{discharge}.}
+
+\item{start_date}{Character. Optional start date with format
+YYYY-MM-DD. Default is 1900-01-01.}
+
+\item{end_date}{Character. End date with format YYYY-MM-DD.
+Default is the current date.}
+
+\item{primary}{Logical. Whether to return the raw data or
+compute daily means. If \code{variable="discharge"} and \code{primary=FALSE}
+then the function will download the aggregated data directly from
+the website. However, if \code{variable="stage"} and \code{primary=FALSE} then
+the function will first download the primary data from the website and
+then compute daily values, because aggregated stage data is not
+available from the website. Otherwise if \code{primary=TRUE} then sub-daily
+data for either \code{stage} or \code{discharge} will be returned. Note that the
+primary data is an irregular time series.}
+
+\item{...}{Additional arguments. None implemented.}
 }
 \value{
 data frame of discharge time-series
 }
 \description{
-Provides access to French gauge data
+Retrieve South African gauge data
 }
 \examples{
-df = southAfrica('X3H023')
-plot(df$Date, df$Q, type='l')
+\dontrun{
+site <- "X3H023"
+start_date <- as.Date("2000-01-01")
+end_date <- as.Date("2010-01-01")
+## Daily:
+x <- southAfrica(site, "stage", start_date, end_date)
+## Sub-daily:
+y <- southAfrica(site, "stage", start_date, end_date, primary = TRUE)
+}
 }

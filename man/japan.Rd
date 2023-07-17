@@ -3,16 +3,33 @@
 \name{japan}
 \alias{japan}
 \title{japan}
+\usage{
+japan(site, variable = "discharge", start_date = NULL, end_date = NULL, ...)
+}
 \arguments{
 \item{site}{Japanese gauge number}
+
+\item{variable}{Character. Either \code{stage} or \code{discharge}.}
+
+\item{start_date}{Character. Optional start date with format
+YYYY-MM-DD. Default is 1900-01-01.}
+
+\item{end_date}{Character. End date with format YYYY-MM-DD.
+Default is the current date.}
+
+\item{...}{Additional arguments. None implemented.}
 }
 \value{
 data frame of discharge time-series
 }
 \description{
-Provides access to Japanese gauge data
+Retrieve Japanese gauge data
 }
 \examples{
-df = japan('301011281104010', 2019, 2022)
+\dontrun{
+start_date <- as.Date("2019-01-01")
+end_date <- as.Date("2022-12-31")
+df <- japan("301011281104010", "discharge", start_date, end_date)
 plot(df$Date, df$Q, type='l')
+}
 }

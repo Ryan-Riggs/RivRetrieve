@@ -1,7 +1,7 @@
 #' @title brazil
 #' @name brazil
 #'
-#' @description Provides access to Brazilian gauge data
+#' @description Retrieve Brazilian gauge data
 #'
 #' @param site Brazilian gauge number
 #' @param variable Character. Either `stage` or `discharge`.
@@ -12,18 +12,14 @@
 #' @param ... Additional arguments. None implemented.
 #'
 #' @return data frame of discharge time-series
-#' @import devtools
-#' @import RSelenium
-#' @import dplyr
-#' @import BBmisc
-#' @import rvest
-#' @import data.table
 #' @examples
-#' df = brazil('12650000')
+#' \dontrun{
+#' df <- brazil('12650000')
 #' plot(df$Date, df$Q, type='l')
+#' }
 #' @export
 brazil <- function(site,
-                   variable = "stage",
+                   variable = "discharge",
                    start_date = NULL,
                    end_date = NULL,
                    ...) {
@@ -38,6 +34,7 @@ brazil <- function(site,
       format("%Y-%m-%d")
 
   ## Download data to a temporary location
+  link <- "https://www.snirh.gov.br/hidroweb/rest/api/documento/convencionais?tipo=3&documentos="
   tmpdir <- tempdir()
   out_path <- tempfile()
   files <- paste0(link, site)
@@ -59,13 +56,13 @@ brazil <- function(site,
   ## TODO ensure output corresponds with Ryan's original function
   ## TODO not sure we should remove this info?
   data <- data %>%
-    dplyr::select(date, Value) %>%
-    rename(Date = date) %>%
-    filter(Date >= start_date & Date <= end_date)
+    dplyr::select(all_of(c("date", "Value"))) %>%
+    rename(Date = "date") %>%
+    filter(.data$Date >= start_date & .data$Date <= end_date)
   if (variable == "discharge") {
-    data <- data %>% rename(Q = Value)
+    data <- data %>% rename(Q = "Value")
   } else if (variable == "stage") {
-    data <- data %>% rename(H = Value)
+    data <- data %>% rename(H = "Value")
   }
   data
 }
@@ -111,37 +108,38 @@ parse_hidroweb_data <- function(data, variable = "stage", ...) {
 
   ## Convert strings to numeric
   data <- data %>%
-    dplyr::mutate(
-             Value = gsub(",", "", Value),
-             Value = as.numeric(Value),
-             Status = gsub(";", "", Status),
-             Status = na_if(Status, ""),
-             Status = as.numeric(Status))
+    mutate(
+      Value = gsub(",", "", .data$Value),
+      Value = as.numeric(.data$Value),
+      Status = gsub(";", "", .data$Status),
+      Status = na_if(.data$Status, ""),
+      Status = as.numeric(.data$Status)
+    )
 
   ## Get time series
   data <- data %>%
-    mutate(Data = as.Date(Data, format = "%d/%m/%Y")) %>%
+    mutate(Data = as.Date(.data$Data, format = "%d/%m/%Y")) %>%
     mutate(
-      year = lubridate::year(Data),
-      month = lubridate::month(Data),
-      day = gsub(prefix, "", day),
-      day = as.numeric(day)
+      year = lubridate::year(.data$Data),
+      month = lubridate::month(.data$Data),
+      day = gsub(prefix, "", .data$day),
+      day = as.numeric(.data$day)
     )
 
   ## Clean `Hora` column
   data <- data %>%
     mutate(
-      Hora = gsub("^(.*) ([0-9]{2}):([0-9]{2}):([0-9]{2})$", "\\2", Hora),
-      Hora = as.numeric(Hora)
+      Hora = gsub("^(.*) ([0-9]{2}):([0-9]{2}):([0-9]{2})$", "\\2", .data$Hora),
+      Hora = as.numeric(.data$Hora)
     )
 
   ## Note that make_date will give NA for illegitimate
   ## dates (e.g. 31 Feb), so we can filter by NA
   data <- data %>%
-    mutate(date = lubridate::make_date(year, month, day)) %>%
-    filter(!is.na(date)) %>%
-    dplyr::select(-Data, -year, -month, -day) %>%
-    arrange(date)
+    mutate(date = lubridate::make_date(.data$year, .data$month, .data$day)) %>%
+    filter(!is.na(.data$date)) %>%
+    dplyr::select(-all_of(c("Data", "year", "month", "day"))) %>%
+    arrange(.data$date)
 
   ## Lastly we ensure our object is a complete time series
   ## without any gaps

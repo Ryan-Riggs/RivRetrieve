@@ -1,7 +1,7 @@
 #' @title southAfrica
 #' @name southAfrica
 #'
-#' @description Provides access to French gauge data
+#' @description Retrieve South African gauge data
 #'
 #' @param site South African gauge number
 #' @param variable Character. Either `stage` or `discharge`.
@@ -15,19 +15,14 @@
 #'   the website. However, if `variable="stage"` and `primary=FALSE` then
 #'   the function will first download the primary data from the website and
 #'   then compute daily values, because aggregated stage data is not
-#'   available from the website.
+#'   available from the website. Otherwise if `primary=TRUE` then sub-daily
+#'   data for either `stage` or `discharge` will be returned. Note that the
+#'   primary data is an irregular time series.
 #' @param ... Additional arguments. None implemented.
 #'
 #' @return data frame of discharge time-series
-#' @import devtools
-#' @import RSelenium
-#' @import jsonlite
-#' @import data.table
-#' @import BBmisc
-#' @import rvest
-#' @import data.table
-#' @import stringr
 #' @examples
+#' \dontrun{
 #' site <- "X3H023"
 #' start_date <- as.Date("2000-01-01")
 #' end_date <- as.Date("2010-01-01")
@@ -35,6 +30,7 @@
 #' x <- southAfrica(site, "stage", start_date, end_date)
 #' ## Sub-daily:
 #' y <- southAfrica(site, "stage", start_date, end_date, primary = TRUE)
+#' }
 #' @export
 southAfrica <- function(site,
                         variable = "stage",
@@ -145,30 +141,30 @@ southAfrica <- function(site,
 
     if (variable == "stage") {
       data <- data %>%
-        rename(stage=COR_LEVEL, qc=COR_LEVEL_QUAL) %>%
-        dplyr::select(time, stage, qc)
+        rename(stage= "COR_LEVEL", qc = "COR_LEVEL_QUAL") %>%
+        dplyr::select(all_of(c("time", "stage", "qc")))
     } else {
       data <- data %>%
-        rename(discharge=COR_FLOW, qc=COR_FLOW_QUAL) %>%
-        dplyr::select(time, discharge, qc)
+        rename(discharge = "COR_FLOW", qc = "COR_FLOW_QUAL") %>%
+        dplyr::select(all_of(c("time", "discharge", "qc")))
     }
 
   } else {
     data <- data %>%
-      mutate(DATE = as.Date(DATE, format="%Y%m%d"))
+      mutate(DATE = as.Date(.data$DATE, format = "%Y%m%d"))
     if (variable == "stage") {
       data <- data %>%
         mutate(across(starts_with("COR_"), as.numeric)) %>%
-        group_by(DATE) %>%
+        group_by(.data$DATE) %>%
         summarize(
-          stage = mean(COR_LEVEL),
-          qc = max(COR_LEVEL_QUAL),
+          stage = mean(.data$COR_LEVEL),
+          qc = max(.data$COR_LEVEL_QUAL),
           n_obs = n()
         )
 
     } else {
       data <- data %>%
-        rename(date = DATE, discharge = D_AVG_FR, qc = QUAL)
+        rename(date = "DATE", discharge = "D_AVG_FR", qc = "QUAL")
     }
   }
   return(data)

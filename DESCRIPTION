@@ -1,15 +1,32 @@
 Package: RivRetrieve
-Type: Package
-Title: Provides access to global river gauge data
-Version: 0.1.0
-Author: Ryan Riggs
-Maintainer: Ryan Riggs <rriggs@tamu.edu>
-Description: RivRetrieve provides access to national level river gauge data.
-License: What license is it under?
-Encoding: UTF-8
+Title: Retrieve global river gauge data from R
+Version: 0.0.0.9000
+Authors@R:
+    c(person("Ryan", "Riggs", ,  "rriggs@tamu.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-6834-9469")),
+      person("Simon", "Moulds", , "sim.moulds@gmail.com", role = c("aut"), comment = c(ORCID = "0000-0002-7297-482X")))
+Description: Functions to retrieve global river gauge data from various national-level APIs.
 LazyData: true
-RoxygenNote: 7.2.1
-Depends: 
-    R (>= 2.10)
-Imports: devtools, RSelenium,dplyr,BBmisc,rvest,data.table,bomWater,tidyhydat,jsonlite,stringr,dataRetrieval
+License: MIT + file LICENSE
+URL: https://github.com/Ryan-Riggs/RivRetrieve
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Depends:
+    R (>= 4.1)
+Imports:
+    bomWater,
+    dataRetrieval,
+    devtools,
+    dplyr,
+    httr,
+    jsonlite,
+    lubridate,
+    readr,
+    rlang,
+    rlist,
+    RSelenium,
+    rvest,
+    stringr,
+    tidyhydat,
+    tidyr
 Remotes: buzacott/bomWater

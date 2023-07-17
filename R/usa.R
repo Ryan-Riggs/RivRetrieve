@@ -1,26 +1,22 @@
 #' @title usa
 #' @name usa
 #'
-#' @description Provides access to USA gauge data
+#' @description Retrieve USA gauge data
 #'
-#' @param site US gauge number
+#' @param site USA gauge number
 #' @param variable Character. Either `stage` or `discharge`.
 #' @param start_date Character. Optional start date with format
 #'   YYYY-MM-DD. Default is 1900-01-01.
 #' @param end_date Character. End date with format YYYY-MM-DD.
 #'   Default is the current date.
+#' @param ... Additional arguments. None implemented.
 #'
 #' @return data frame of discharge time-series
-#' @import devtools
-#' @import RSelenium
-#' @import dataRetrieval
-#' @import data.table
-#' @import datasets
-#' @import dplyr
-#' @import BBmisc
 #' @examples
-#' df = usa("02471078", variable="discharge")
+#' \dontrun{
+#' df <- usa("02471078", variable="discharge")
 #' plot(df$Date, df$Q, type='l')
+#' }
 #' @export
 usa <- function(site,
                 variable = "stage",
@@ -50,8 +46,9 @@ usa <- function(site,
   data <- data %>%
     dplyr::select(3, 4) %>%
     setNames(c("Date", "X")) %>%
-    mutate(X = as.numeric(X) * mult) %>%
-    rename(!!colnm := "X") %>%
+    mutate(X = as.numeric(.data$X) * mult) %>%
     as_tibble()
+  data[[colnm]] <- data[["X"]]
+  data <- data %>% dplyr::select(-all_of(c("X")))
   return(data)
 }

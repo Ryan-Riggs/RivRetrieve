@@ -4,7 +4,7 @@ base_url <- "http://environment.data.gov.uk"
 #' @title uk
 #' @name uk
 #'
-#' @description Provides access to UK gauge data
+#' @description Retrieve UK gauge data
 #'
 #' @param site UK gauge number
 #' @param variable Character. Either `stage` or `discharge`.
@@ -15,15 +15,14 @@ base_url <- "http://environment.data.gov.uk"
 #' @param ... Additional arguments. None implemented.
 #'
 #' @return data frame of discharge time-series
-#' @import httr
-#' @import rlist
-#' @import dplyr
 #' @examples
+#' \dontrun{
 #' site <- "http://environment.data.gov.uk/hydrology/id/stations/3c5cba29-2321-4289-a1fd-c355e135f4cb"
 #' x <- uk(site, variable = "discharge")
 #' plot(x$Date, x$Q, type='l')
+#' }
 #' @export
-uk <- function(site, variable, start_date = NULL, end_date = NULL) {
+uk <- function(site, variable, start_date = NULL, end_date = NULL, ...) {
 
   if (is.null(start_date))
     start_date <- as.Date("1900-01-01")
@@ -73,10 +72,10 @@ uk <- function(site, variable, start_date = NULL, end_date = NULL) {
     )
     r <- GET(url)
     c <- content(r)
-    selected_items <- list.select(c$items, date, dateTime, value, quality)
+    selected_items <- list.select(c$items, "date", "dateTime", "value", "quality")
     x <- list.stack(selected_items) %>%
       as_tibble() %>%
-      mutate(date = as.Date(date))
+      mutate(date = as.Date(.data$date))
 
     max_date <- max(x$date)
     if (nrow(x) == 2000000 & max_date < end_date) {
@@ -91,7 +90,7 @@ uk <- function(site, variable, start_date = NULL, end_date = NULL) {
   if (variable == "stage") {
     x <- x %>%
       group_by(date) %>%
-      summarize(value = sum(value), count = n()) %>%
+      summarize(value = sum(.data$value), count = n()) %>%
       filter(count == 96)
   }
 
@@ -100,7 +99,8 @@ uk <- function(site, variable, start_date = NULL, end_date = NULL) {
   complete_ts <- seq(min(x$date), max(x$date), by = "1 day")
   x <- tibble(date = complete_ts) %>%
     left_join(x, by = "date") %>%
-    dplyr::select(date, value) %>%
-    rename(Date = date, !!colnm := value)
+    dplyr::select(all_of(c("date", "value")))
+  x[[colnm]] <- x[["value"]]
+  x <- x %>% dplyr::select(-all_of(c("value")))
   x
 }
