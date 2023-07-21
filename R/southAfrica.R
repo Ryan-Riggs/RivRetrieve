@@ -18,6 +18,8 @@
 #'   available from the website. Otherwise if `primary=TRUE` then sub-daily
 #'   data for either `stage` or `discharge` will be returned. Note that the
 #'   primary data is an irregular time series.
+#' @param sites Logical. If TRUE, returns a list of measurement
+#'   sites.
 #' @param ... Additional arguments. None implemented.
 #'
 #' @return data frame of discharge time-series
@@ -37,7 +39,12 @@ southAfrica <- function(site,
                         start_date = NULL,
                         end_date = NULL,
                         primary = FALSE,
+                        sites = FALSE,
                         ...) {
+
+  if (sites) {
+    return(southAfrican_sites)
+  }
 
   ## TODO is it somehow possible to retrieve the start and end
   ## point of the data record?

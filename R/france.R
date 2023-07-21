@@ -9,6 +9,8 @@
 #'   YYYY-MM-DD. Default is 1900-01-01.
 #' @param end_date Character. End date with format YYYY-MM-DD.
 #'   Default is the current date.
+#' @param sites Logical. If TRUE, returns a list of measurement
+#'   sites.
 #' @param ... Additional arguments. None implemented.
 #'
 #' @return data frame of discharge time-series
@@ -22,7 +24,12 @@ france <- function(site,
                    variable = "discharge",
                    start_date = NULL,
                    end_date = NULL,
+                   sites = FALSE,
                    ...) {
+
+  if (sites) {
+    return(french_sites)
+  }
 
   if (variable == "stage") {
     stop("Stage data is not currently available for France")

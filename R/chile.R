@@ -15,6 +15,8 @@ ending <- "%22],%22start%22:null,%22end%22:null},%22export%22:{%22map%22:%22Shap
 #'   YYYY-MM-DD. Default is 1900-01-01.
 #' @param end_date Character. End date with format YYYY-MM-DD.
 #'   Default is the current date.
+#' @param sites Logical. If TRUE, returns a list of measurement
+#'   sites.
 #' @param ... Additional arguments. None implemented.
 #'
 #' @return data frame of discharge time-series
@@ -28,7 +30,12 @@ chile <- function(site,
                   variable = "discharge",
                   start_date = NULL,
                   end_date = NULL,
+                  sites = FALSE,
                   ...) {
+
+  if (sites) {
+    return(chile_sites)
+  }
 
   if (variable == "stage") {
     stop("Stage data is not currently available for Chile")
@@ -47,12 +54,13 @@ chile <- function(site,
   Sys.sleep(.25)
   outpath <- tempfile()
   website <- paste0(original, site, ending)
-  file <- try(
-    html_session(website) %>% html_element('body') %>% html_text('url')
-  )
-  if (inherits(file, "try-error")) {
-    next
-  }
+  ## file <- try(
+  ##   html_session(website) %>% html_element('body') %>% html_text('url')
+  ## )
+  ## if (inherits(file, "try-error")) {
+  ##   stop()
+  ## }
+  file <- html_session(website) %>% html_element('body') %>% html_text('url')
   page <- gsub(".*https", "", file)
   page <- gsub("}}}", "", page)
   page <- paste0("https", page)
