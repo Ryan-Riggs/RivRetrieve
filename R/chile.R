@@ -36,45 +36,42 @@ chile <- function(site,
   if (sites) {
     return(chile_sites)
   }
-
   if (variable == "stage") {
     stop("Stage data is not currently available for Chile")
   }
-
-  if (is.null(start_date))
+  colnm <- "Q"
+  if (is.null(start_date)) {
     start_date <- "1900-01-01"
-
+  }
   ## If `end_date` is not specified then use the current date
-  if (is.null(end_date))
+  if (is.null(end_date)) {
     end_date <- Sys.time() %>%
       as.Date() %>%
       format("%Y-%m-%d")
-
+  }
   ## Wait a short time before downloading, to prevent overloading the server
   Sys.sleep(.25)
   outpath <- tempfile()
   website <- paste0(original, site, ending)
-  ## file <- try(
-  ##   html_session(website) %>% html_element('body') %>% html_text('url')
-  ## )
-  ## if (inherits(file, "try-error")) {
-  ##   stop()
-  ## }
-  file <- html_session(website) %>% html_element('body') %>% html_text('url')
-  page <- gsub(".*https", "", file)
-  page <- gsub("}}}", "", page)
-  page <- paste0("https", page)
-  page <- noquote(page)
-  page <- gsub('"', '', page)
+  file <- session(website) %>% html_element('body') %>% html_text('url')
+  page <- gsub("(.*)(https://.*)(\"}}})", "\\2", file) %>%
+    noquote()
   download.file(page, outpath)
-  sttn <- read_delim(outpath)
-  ## sttn <- fread(outpath)
-  sttn$Date <- paste(sttn$agno, sttn$mes, sttn$dia, sep="-")
-  sttn$Date <- as.Date(sttn$Date, format = "%Y-%m-%d")
-  sttn$valor <- as.numeric(sttn$valor)
-  sttn$Q <- sttn$valor
-  df <- tibble(Date = sttn$Date, Q = sttn$Q) %>%
+  original_data <- read_delim(outpath, show_col_types = FALSE)
+  names(original_data) <- sub("\\s+", "", names(original_data))
+  data <- original_data %>%
+    unite(Date, agno, mes, dia, sep="-") %>%
+    mutate(
+      Date = as.Date(Date),
+      valor = as.numeric(valor)
+    ) %>%
+    rename(!!colnm := "valor") %>%
     arrange(.data$Date) %>%
     filter(.data$Date >= start_date & .data$Date <= end_date)
-  return(df)
+  out <- new_tibble(
+    data,
+    original = original_data,
+    class = "rr_tbl"
+  )
+  return(out)
 }

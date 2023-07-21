@@ -1,6 +1,3 @@
-
-base_url <- "http://environment.data.gov.uk"
-
 #' @title uk
 #' @name uk
 #'
@@ -55,6 +52,7 @@ uk <- function(site,
   ## Parse site code
   first <- strsplit(site, "/")
   site <- first[[1]][[7]]
+  base_url <- "http://environment.data.gov.uk"
   url <- paste0(
     base_url,
     "/hydrology/id/measures?station=", site

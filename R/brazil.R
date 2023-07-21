@@ -1,3 +1,5 @@
+
+
 #' @title brazil
 #' @name brazil
 #'
@@ -30,9 +32,9 @@ brazil <- function(site,
   if (sites) {
     return(brazil_sites)
   }
-
-  if (is.null(start_date))
+  if (is.null(start_date)) {
     start_date <- "1900-01-01"
+  }
 
   ## If `end_date` is not specified then use the current date
   if (is.null(end_date))
@@ -41,10 +43,10 @@ brazil <- function(site,
       format("%Y-%m-%d")
 
   ## Download data to a temporary location
-  link <- "https://www.snirh.gov.br/hidroweb/rest/api/documento/convencionais?tipo=3&documentos="
   tmpdir <- tempdir()
   out_path <- tempfile()
-  files <- paste0(link, site)
+  base_url <- "https://www.snirh.gov.br/hidroweb/rest/api/documento/convencionais?tipo=3&documentos="
+  files <- paste0(base_url, site)
   out <- paste0(out_path, site, ".zip")
   res <- download.file(files, out, method = "curl")
   if (res != 0) {
@@ -53,25 +55,27 @@ brazil <- function(site,
   a <- unzip(out, exdir = tmpdir)
   if (variable == "discharge") {
     f <- unzip(a[grep("^(.*)/vazoes_(.*).zip", a)], exdir = tmpdir)
+    colnm <- "Q"
   } else if (variable == "stage") {
     f <- unzip(a[grep("^(.*)/cotas_(.*).zip", a)], exdir = tmpdir)
+    colnm <- "H"
   }
-  data <- read_hidroweb_data(f)
+  original_data <- read_hidroweb_data(f)
+  original_data <- as_tibble(original_data)
   data <- parse_hidroweb_data(
-    data, variable = variable
+    original_data, variable = variable
   )
-  ## TODO ensure output corresponds with Ryan's original function
-  ## TODO not sure we should remove this info?
   data <- data %>%
     dplyr::select(all_of(c("date", "Value"))) %>%
     rename(Date = "date") %>%
+    rename(!!colnm := "Value") %>%
     filter(.data$Date >= start_date & .data$Date <= end_date)
-  if (variable == "discharge") {
-    data <- data %>% rename(Q = "Value")
-  } else if (variable == "stage") {
-    data <- data %>% rename(H = "Value")
-  }
-  data
+  out <- new_tibble(
+    data,
+    original = original_data,
+    class = "rr_tbl"
+  )
+  return(out)
 }
 
 read_hidroweb_data <- function(filename, ...) {
