@@ -12,6 +12,8 @@ base_url <- "http://environment.data.gov.uk"
 #'   YYYY-MM-DD. Default is 1900-01-01.
 #' @param end_date Character. End date with format YYYY-MM-DD.
 #'   Default is the current date.
+#' @param sites Logical. If TRUE, returns a list of measurement
+#'   sites.
 #' @param ... Additional arguments. None implemented.
 #'
 #' @return data frame of discharge time-series
@@ -22,7 +24,16 @@ base_url <- "http://environment.data.gov.uk"
 #' plot(x$Date, x$Q, type='l')
 #' }
 #' @export
-uk <- function(site, variable, start_date = NULL, end_date = NULL, ...) {
+uk <- function(site,
+               variable,
+               start_date = NULL,
+               end_date = NULL,
+               sites = FALSE,
+               ...) {
+
+  if (sites) {
+    return(uk_sites)
+  }
 
   if (is.null(start_date))
     start_date <- as.Date("1900-01-01")

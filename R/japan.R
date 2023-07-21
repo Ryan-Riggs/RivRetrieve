@@ -9,6 +9,8 @@
 #'   YYYY-MM-DD. Default is 1900-01-01.
 #' @param end_date Character. End date with format YYYY-MM-DD.
 #'   Default is the current date.
+#' @param sites Logical. If TRUE, returns a list of measurement
+#'   sites.
 #' @param ... Additional arguments. None implemented.
 #'
 #' @return data frame of discharge time-series
@@ -24,7 +26,12 @@ japan <- function(site,
                   variable = "discharge",
                   start_date = NULL,
                   end_date = NULL,
+                  sites = FALSE,
                   ...) {
+
+  if (sites) {
+    return(japan_sites)
+  }
 
   path <- "http://www1.river.go.jp/cgi-bin/DspWaterData.exe"
 
@@ -68,18 +75,22 @@ japan <- function(site,
       "&BGNDATE=", day,
       "&ENDDATE=", ending
     )
-    file <- try(
-      html_session(website) %>%
+    ## file <- try(
+    ##   html_session(website) %>%
+    ##   read_html() %>%
+    ##   html_element("body")
+    ## )
+    ## if (inherits(file, "try-error")) {
+    ##   next
+    ## }
+    ## file1 <- try(file %>% html_table())
+    ## if (inherits(file1, "try-error")) {
+    ##   next
+    ## }
+    file <- html_session(website) %>%
       read_html() %>%
       html_element("body")
-    )
-    if (inherits(file, "try-error")) {
-      next
-    }
-    file1 <- try(file %>% html_table())
-    if (inherits(file1, "try-error")) {
-      next
-    }
+    file1 <- file %>% html_table()
     ## Remove header
     df <- file1[5:nrow(file1), ]
     ## First column is the time
