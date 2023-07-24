@@ -31,25 +31,41 @@ uk <- function(site,
   if (sites) {
     return(uk_sites)
   }
+  start_date <- .get_start_date(start_date)
+  end_date <- .get_end_date(end_date)
+  column_name <- .get_column_name(variable)
+  original_data <- download_uk_data(
+    site, variable, start_date, end_date
+  )
+  ## Aggregate to get daily data
+  if (variable == "stage") {
+    data <- original_data %>%
+      group_by(date) %>%
+      summarize(value = sum(.data$value), count = n()) %>%
+      filter(count == 96)
+  }
+  ## Merge with complete time series in case any missing,
+  ## then select columns
+  complete_ts <- seq(min(x$date), max(x$date), by = "1 day")
+  data <- tibble(date = complete_ts) %>%
+    left_join(x, by = "date") %>%
+    dplyr::select(all_of(c("date", "value"))) %>%
+    rename(Date = "date", !!column_name := "value")
+  out <- new_tibble(
+    data,
+    original = original_data,
+    class = "rr_tbl"
+  )
+  return(out)
+}
 
-  if (is.null(start_date))
-    start_date <- as.Date("1900-01-01")
-
-  ## if `end_date` is not specified then use the current date
-  if (is.null(end_date))
-    end_date <- Sys.time() %>%
-      as.Date() %>%
-      format("%Y-%m-%d")
-
+download_uk_data <- function(site, variable, start_date, end_date) {
   if (variable == "stage") {
     ptn <- "level-i-900-m-qualified"
-    colnm <- "H"
   } else if (variable == "discharge") {
     ptn <- "flow-m-86400-m3s-qualified"
-    colnm <- "Q"
   }
-
-  ## Parse site code
+  ## Parse site code and check whether site has data for given variable
   first <- strsplit(site, "/")
   site <- first[[1]][[7]]
   base_url <- "http://environment.data.gov.uk"
@@ -59,14 +75,13 @@ uk <- function(site,
   )
   r <- GET(url)
   c <- content(r)
-  measures <- sapply(c$items, FUN=function(x) x$notation)
+  measures <- sapply(c$items, FUN = function(x) x$notation)
   ix <- grep(ptn, measures)
   if (length(ix) != 1) {
     stop(sprintf("Site %s does not have %s data", site, variable))
   } else {
     notation <- measures[ix]
   }
-
   ## Get data
   done <- FALSE
   data_list <- list()
@@ -81,35 +96,20 @@ uk <- function(site,
     )
     r <- GET(url)
     c <- content(r)
-    selected_items <- list.select(c$items, "date", "dateTime", "value", "quality")
+    selected_items <- lapply(
+      c$items, FUN = function(x) x[c("date", "dateTime", "value", "quality")]
+    )
     x <- list.stack(selected_items) %>%
       as_tibble() %>%
       mutate(date = as.Date(.data$date))
-
     max_date <- max(x$date)
-    if (nrow(x) == 2000000 & max_date < end_date) {
+    if ((nrow(x) == 2000000) && (max_date < end_date)) {
       start_date <- max_date
     } else {
       done <- TRUE
     }
     data_list[[length(data_list) + 1]] <- x
   }
-  x <- do.call("rbind", data_list)
-  ## Aggregate to get daily data
-  if (variable == "stage") {
-    x <- x %>%
-      group_by(date) %>%
-      summarize(value = sum(.data$value), count = n()) %>%
-      filter(count == 96)
-  }
-
-  ## Merge with complete time series in case any missing,
-  ## then select columns
-  complete_ts <- seq(min(x$date), max(x$date), by = "1 day")
-  x <- tibble(date = complete_ts) %>%
-    left_join(x, by = "date") %>%
-    dplyr::select(all_of(c("date", "value")))
-  x[[colnm]] <- x[["value"]]
-  x <- x %>% dplyr::select(-all_of(c("value")))
-  x
+  original_data <- do.call("rbind", data_list)
+  return(original_data)
 }

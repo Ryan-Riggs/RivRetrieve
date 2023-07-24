@@ -27,6 +27,7 @@ Imports:
     RSelenium,
     rvest,
     stringr,
+    tibble,
     tidyhydat,
     tidyr
 Remotes: buzacott/bomWater

@@ -4,7 +4,7 @@
 \alias{uk}
 \title{uk}
 \usage{
-uk(site, variable, start_date = NULL, end_date = NULL, ...)
+uk(site, variable, start_date = NULL, end_date = NULL, sites = FALSE, ...)
 }
 \arguments{
 \item{site}{UK gauge number}
@@ -16,6 +16,9 @@ YYYY-MM-DD. Default is 1900-01-01.}
 
 \item{end_date}{Character. End date with format YYYY-MM-DD.
 Default is the current date.}
+
+\item{sites}{Logical. If TRUE, returns a list of measurement
+sites.}
 
 \item{...}{Additional arguments. None implemented.}
 }

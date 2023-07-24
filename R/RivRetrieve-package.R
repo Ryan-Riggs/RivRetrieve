@@ -11,6 +11,7 @@
 #' @import RSelenium
 #' @import rvest
 #' @import stringr
+#' @import tibble
 #' @import tidyhydat
 #' @import tidyr
 #' @importFrom rlist list.select list.stack

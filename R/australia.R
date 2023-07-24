@@ -21,7 +21,6 @@
 #' plot(df$Timestamp, df$Value, type='l')
 #' }
 #' @export
-
 australia <- function(site,
                       variable = "discharge",
                       start_date = NULL,
@@ -32,40 +31,31 @@ australia <- function(site,
   if (sites) {
     return(australia_sites)
   }
-  if (is.null(start_date)) {
-    start_date <- "1900-01-01"
-  }
-  ## If `end_date` is not specified then use the current date
-  if (is.null(end_date))
-    end_date <- Sys.time() %>%
-      as.Date() %>%
-      format("%Y-%m-%d")
+  start_date <- .get_start_date(start_date)
+  end_date <- .get_end_date(end_date)
+  column_name <- .get_column_name(variable)
 
   ## Recode variables from RivRetrieve convention to BoM convention
   if (variable == "stage") {
-    variable <- "Water Course Level"
-    colnm <- "H"
+    bom_variable <- "Water Course Level"
   } else if (variable == "discharge") {
-    variable <- "Water Course Discharge"
-    colnm <- "Q"
-  } else {
-    stop(sprintf("Variable %s is not available", variable))
+    bom_variable <- "Water Course Discharge"
   }
 
   ## Retrieve data using `bomWater` package
-  original_data <- get_daily(variable, site, start_date, end_date)
+  original_data <- get_daily(
+    bom_variable, site, start_date, end_date
+  )
 
   ## Create return object
   original_data <- as_tibble(original_data)
   data <- original_data %>%
     mutate(Date = as.Date(.data$Timestamp)) %>%
-    rename(!!colnm := "Value") %>%
-    dplyr::select(c("Date", colnm))
+    dplyr::select(c("Date", "Value")) %>%
+    rename(!!column_name := "Value")
   out <- new_tibble(
     data,
     original = original_data,
-    ## variable = "stage"
-    ## units = "m"
     class = "rr_tbl"
   )
   return(out)
