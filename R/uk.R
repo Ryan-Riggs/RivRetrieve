@@ -37,18 +37,19 @@ uk <- function(site,
   original_data <- download_uk_data(
     site, variable, start_date, end_date
   )
+  data <- original_data
   ## Aggregate to get daily data
   if (variable == "stage") {
-    data <- original_data %>%
+    data <- data %>%
       group_by(date) %>%
       summarize(value = sum(.data$value), count = n()) %>%
       filter(count == 96)
   }
   ## Merge with complete time series in case any missing,
   ## then select columns
-  complete_ts <- seq(min(x$date), max(x$date), by = "1 day")
+  complete_ts <- seq(min(data$date), max(data$date), by = "1 day")
   data <- tibble(date = complete_ts) %>%
-    left_join(x, by = "date") %>%
+    left_join(data, by = "date") %>%
     dplyr::select(all_of(c("date", "value"))) %>%
     rename(Date = "date", !!column_name := "value")
   out <- new_tibble(

@@ -43,7 +43,7 @@ southAfrica <- function(site,
   if (variable == "stage") {
     data <- data %>%
       mutate(across(starts_with("COR_"), as.numeric)) %>%
-      rename(Date = DATE) %>%
+      rename(Date = "DATE") %>%
       group_by(.data$Date) %>%
       summarize(!!column_name := mean(.data$COR_LEVEL))
   } else {

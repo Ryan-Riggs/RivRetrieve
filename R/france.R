@@ -36,8 +36,8 @@ france <- function(site,
   original_data <- download_france_data(site, start_date, end_date)
   data <- original_data %>%
     mutate(
-      Date = as.Date(date_obs_elab),
-      !!column_name := as.numeric(resultat_obs_elab) / 1000.
+      Date = as.Date(!!sym("date_obs_elab")),
+      !!column_name := as.numeric(!!sym("resultat_obs_elab")) / 1000.
     ) %>%
     dplyr::select(all_of(c("Date", column_name))) %>%
     arrange(Date)
@@ -49,7 +49,7 @@ france <- function(site,
   return(out)
 }
 
-download_france_data <- function(site, start_date, end_data) {
+download_france_data <- function(site, start_date, end_date) {
   ## FIXME this will only download 20000 records at once, so we need to provide a method to split the download if necessary
   web <- paste0(
     "https://hubeau.eaufrance.fr/api/v1/hydrometrie/obs_elab?code_entite=",

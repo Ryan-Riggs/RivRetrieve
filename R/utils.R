@@ -27,3 +27,17 @@
   }
   return(colnm)
 }
+
+## .build_rr_tbl <- function(x, variable, original_data, ...) {
+##   if (variable == "discharge") {
+##     units <- "m3/s"
+##   } else if (variable == "stage") {
+##     units <- "m"
+##   }
+##   out <- new_tibble(
+##     data,
+##     variable = variable,
+##     original = original_data,
+##     class = c("rr_tbl")
+##   )
+## }

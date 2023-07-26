@@ -38,12 +38,12 @@ chile <- function(site,
   column_name <- .get_column_name(variable)
   original_data <- download_chile_data(site)
   data <- original_data %>%
-    unite(Date, agno, mes, dia, sep="-") %>%
+    unite("Date", "agno", "mes", "dia", sep = "-") %>%
     mutate(
-      Date = as.Date(Date),
-      valor = as.numeric(valor)
+      Date = as.Date(!!sym("Date")),
+      valor = as.numeric(!!sym("valor"))
     ) %>%
-    rename(!!colnm := "valor") %>%
+    rename(!!column_name := "valor") %>%
     arrange(.data$Date) %>%
     filter(.data$Date >= start_date & .data$Date <= end_date)
   out <- new_tibble(
@@ -59,8 +59,11 @@ download_chile_data <- function(site) {
   ending <- "%22],%22start%22:null,%22end%22:null},%22export%22:{%22map%22:%22Shapefile%22,%22series%22:%22CSV%22,%22view%22:{%22frame%22:%22Vista%20Actual%22,%22map%22:%22roadmap%22,%22clat%22:-18.0036,%22clon%22:-69.6331,%22zoom%22:5,%22width%22:461,%22height%22:2207}},%22action%22:[%22export_series%22]}"
   ## Wait a short time before downloading, to prevent overloading the server
   Sys.sleep(.25)
+  outpath <- tempfile()
   website <- paste0(original, site, ending)
-  file <- session(website) %>% html_element('body') %>% html_text('url')
+  file <- session(website) %>%
+    html_element("body") %>%
+    html_text("url")
   page <- gsub("(.*)(https://.*)(\"}}})", "\\2", file) %>%
     noquote()
   download.file(page, outpath)

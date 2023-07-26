@@ -37,6 +37,9 @@ japan <- function(site,
   column_name <- .get_column_name(variable)
   original_data <- download_japan_data(site, variable, start_date, end_date)
   data <- parse_japan_data(original_data)
+  ## Make sure timeseries is complete
+  ts <- tibble(Date = seq.Date(start_date, end_date, by = "1 day"))
+  data <- ts %>% left_join(data, by = "Date")
   data <- data %>%
     rename(!!column_name := "Value")
   out <- new_tibble(
@@ -114,9 +117,6 @@ parse_japan_data <- function(data) {
   )
   vals <- rowMeans(data, na.rm = TRUE) %>% na_if(NaN)
   data <- tibble(Date = dates, Value = vals) %>%
-    filter(!is.na(Value))
-  ## Make sure timeseries is complete
-  ts <- tibble(Date = seq.Date(start_date, end_date, by = "1 day"))
-  data <- ts %>% left_join(data, by = "Date")
+    filter(!is.na(!!sym("Value")))
   return(data)
 }
