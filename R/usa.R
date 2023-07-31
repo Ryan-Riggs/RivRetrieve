@@ -30,32 +30,29 @@ usa <- function(site,
   if (sites) {
     return(usa_sites)
   }
-
-  if (is.null(start_date))
-    start_date <- as.Date("1900-01-01")
-
-  ## if `end_date` is not specified then use the current date
-  if (is.null(end_date))
-    end_date <- Sys.time() %>%
-      as.Date() %>%
-      format("%Y-%m-%d")
-
+  start_date <- .get_start_date(start_date)
+  end_date <- .get_end_date(end_date)
+  column_name <- .get_column_name(variable)
   if (variable == "stage") {
     param_code <- "00065"
-    colnm <- "H"
     mult <- 0.3048 # ft -> m
   } else if (variable == "discharge") {
     param_code <- "00060"
-    colnm <- "Q"
     mult <- 0.02832 # ft3/s -> m3/s
   }
-  data <- readNWISdv(site, param_code, start_date, end_date)
-  data <- data %>%
+  original_data <- readNWISdv(
+    site, param_code, start_date, end_date
+  )
+  original_data <- as_tibble(original_data)
+  data <- original_data %>%
     dplyr::select(3, 4) %>%
     setNames(c("Date", "X")) %>%
     mutate(X = as.numeric(.data$X) * mult) %>%
-    as_tibble()
-  data[[colnm]] <- data[["X"]]
-  data <- data %>% dplyr::select(-all_of(c("X")))
-  return(data)
+    rename(!!column_name := "X")
+  out <- new_tibble(
+    data,
+    original = original_data,
+    class = "rr_tbl"
+  )
+  return(out)
 }

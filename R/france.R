@@ -30,38 +30,36 @@ france <- function(site,
   if (sites) {
     return(french_sites)
   }
-
-  if (variable == "stage") {
-    stop("Stage data is not currently available for France")
-  }
-
-  if (is.null(start_date))
-    start_date <- "1900-01-01"
-
-  station_specific <- 'https://hubeau.eaufrance.fr/api/v1/hydrometrie/obs_elab?code_entite='
-  ## If `end_date` is not specified then use the current date
-  if (is.null(end_date))
-    end_date <- Sys.time() %>%
-      as.Date() %>%
-      format("%Y-%m-%d")
-
-  ## Download data
-  web <- paste0(
-    station_specific, site,
-    '&date_debut_obs_elab=1800-01-01&date_fin_obs_elab=2022-12-31&grandeur_hydro_elab=QmJ&size=20000'
-  )
-  df <- fromJSON(web)$data
-  if (is.null(nrow(df))) {
-    return(NULL)
-  } else {
-    df <- tibble(
-      Date = as.Date(df$date_obs_elab),
-      Q = as.numeric(df$resultat_obs_elab) / 1000
+  start_date <- .get_start_date(start_date)
+  end_date <- .get_end_date(end_date)
+  column_name <- .get_column_name(variable)
+  original_data <- download_france_data(site, start_date, end_date)
+  data <- original_data %>%
+    mutate(
+      Date = as.Date(!!sym("date_obs_elab")),
+      !!column_name := as.numeric(!!sym("resultat_obs_elab")) / 1000.
     ) %>%
-      arrange(Date) %>%
-      filter(Date >= start_date & Date <= end_date)
-    ## FIXME - this seems dangerous?
-    df <- df[df$Q >= 0, ]
-  }
-  return(df)
+    dplyr::select(all_of(c("Date", column_name))) %>%
+    arrange(Date)
+  out <- new_tibble(
+    data,
+    original = original_data,
+    class = "rr_tbl"
+  )
+  return(out)
+}
+
+download_france_data <- function(site, start_date, end_date) {
+  ## FIXME this will only download 20000 records at once, so we need to provide a method to split the download if necessary
+  web <- paste0(
+    "https://hubeau.eaufrance.fr/api/v1/hydrometrie/obs_elab?code_entite=",
+    site,
+    "&date_debut_obs_elab=", start_date,
+    "&date_fin_obs_elab=", end_date,
+    "&grandeur_hydro_elab=QmJ",
+    "&size=20000"
+  )
+  original_data <- fromJSON(web)$data
+  original_data <- as_tibble(original_data)
+  return(original_data)
 }

@@ -30,31 +30,23 @@ canada <- function(site,
   if (sites) {
     return(canada_sites)
   }
-
-  if (is.null(start_date))
-    start_date <- "1900-01-01"
-
-  ## If `end_date` is not specified then use the current date
-  if (is.null(end_date))
-    end_date <- Sys.time() %>%
-      as.Date() %>%
-      format("%Y-%m-%d")
-
+  start_date <- .get_start_date(start_date)
+  end_date <- .get_end_date(end_date)
+  column_name <- .get_column_name(variable)
   if (variable == "discharge") {
-    data <- try(hy_daily_flows(site))
+    original_data <- hy_daily_flows(site)
   } else if (variable == "stage") {
-    data <- try(hy_daily_levels(site))
+    original_data <- hy_daily_levels(site)
   }
-  if (inherits(data, "try-error")) {
-    return(NA)
-  }
-  data <- data %>%
+  original_data <- as_tibble(original_data)
+  data <- original_data %>%
     dplyr::select(all_of(c("Date", "Value"))) %>%
+    rename(!!column_name := "Value") %>%
     filter(.data$Date >= start_date & .data$Date <= end_date)
-  if (variable == "discharge") {
-    data <- data %>% rename(Q = "Value")
-  } else if (variable == "stage") {
-    data <- data %>% rename(H = "Value")
-  }
-  return(data)
+  out <- new_tibble(
+    data,
+    original = original_data,
+    class = "rr_tbl"
+  )
+  return(out)
 }
