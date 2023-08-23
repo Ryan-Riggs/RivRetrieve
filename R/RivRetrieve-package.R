@@ -16,7 +16,6 @@
 #' @import tidyr
 #' @import readr
 #' @importFrom rlist list.select list.stack
-#' @importFrom readr read_delim locale
 #' @importFrom rlang .data :=
 #' @importFrom stats setNames time
 #' @importFrom utils download.file unzip
