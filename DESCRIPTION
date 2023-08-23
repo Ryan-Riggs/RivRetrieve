@@ -31,3 +31,7 @@ Imports:
     tidyhydat,
     tidyr
 Remotes: buzacott/bomWater
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
