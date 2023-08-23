@@ -124,10 +124,14 @@ parse_hidroweb_data <- function(data, variable = "stage", ...) {
       Status = as.numeric(.data$Status)
     )
 
+
   ## Convert units if stage
   if (variable == "stage") {
     data <- data %>% mutate(Value = Value / 100.)
   }
+
+
+
   ## Get time series
   data <- data %>%
     mutate(Data = as.Date(.data$Data, format = "%d/%m/%Y")) %>%

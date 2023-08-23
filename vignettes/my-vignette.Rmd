@@ -1,0 +1,60 @@
+---
+title: "Introduction to the RivRetrieve R package"
+author: 'Ryan M. Riggs and Simon Moulds'
+date: 'August 17, 2023'
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{my-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding[utf8]{inputenc}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",warning=FALSE,message=FALSE,fig.width=7
+)
+```
+## Here is a quick tutorial for RivRetrieve functions:
+
+The `RivRetrieve` package is developed to efficiently access and download global river gauge data into an R environment. While numerous river data exists, our package is currently limited to daily measurements of river stage (meters) and discharge (cubic meters per second) for: Australia, Brazil, Canada, Chile, France, Japan, South Africa, the United Kingdom, and the United States.
+```{r setup}
+library(RivRetrieve)
+# Amazon River near Obidos, Brazil
+siteNumber='17050001'
+discharge=brazil(site=siteNumber,variable='discharge')
+stage=brazil(site=siteNumber,variable='stage')
+
+plot(discharge$Date,discharge$Q, type='l',xlab='',ylab='Discharge (cms)')
+```
+
+RivRetrieve automatically outputs a dataframe containing a `Date` column of `datetime` values and either a `H` or `Q` `numeric` column for the stage and discharge variable, respectively. 
+
+Stage is provided in meters and discharge is provided in cubic meters per second.
+
+
+## Accessing the raw gauge data:
+```{r}
+raw=original(discharge)
+```
+```{r,echo=FALSE}
+library(knitr)
+kable(raw[1:5,],caption='Raw Brazilian gauge data')
+```
+
+## Site locations for all agencies can also be found:
+```{r}
+japanSites=japan(sites=TRUE)
+```
+```{r,echo=FALSE}
+kable(japanSites[1:10,],caption='Example Japanese river gauge locations')
+```
+
+## Date defined retrieval
+Specific time periods can also be accessed if the entire timeseries is not needed. This is particularly useful for japanese gauge data as it is time consuming to download.
+```{r}
+# Last annual timeseries
+recent=uk(site="http://environment.data.gov.uk/hydrology/id/stations/3c5cba29-2321-4289-a1fd-c355e135f4cb",variable='stage',start_date = '2023-01-01',end_date = '2023-12-31')
+
+plot(recent$Date,recent$H,type='l', xlab='',ylab='Stage (m)')
+```
