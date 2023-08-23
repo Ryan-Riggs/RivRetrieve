@@ -77,7 +77,9 @@ read_hidroweb_data <- function(filename, ...) {
   ## TODO unsure how reliable 'skip=13' will be
   data <- suppressWarnings(
     read_delim(
-      filename, delim = ";", skip = 13,
+      filename, delim = ";",
+      locale = locale(decimal_mark = ","),
+      skip = 13,
       progress = FALSE, show_col_types = FALSE)
   )
   data
@@ -122,9 +124,10 @@ parse_hidroweb_data <- function(data, variable = "stage", ...) {
       Status = as.numeric(.data$Status)
     )
 
-  ## Fix units
-  data <- data %>% mutate(Value = Value / 100.)
-
+  ## Convert units if stage
+  if (variable == "stage") {
+    data <- data %>% mutate(Value = Value / 100.)
+  }
   ## Get time series
   data <- data %>%
     mutate(Data = as.Date(.data$Data, format = "%d/%m/%Y")) %>%
