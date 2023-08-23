@@ -14,7 +14,7 @@
 #' @import tibble
 #' @import tidyhydat
 #' @import tidyr
-#' @importFrom readr read_dlim locale
+#' @importFrom readr read_delim locale
 #' @importFrom rlist list.select list.stack
 #' @importFrom rlang .data :=
 #' @importFrom stats setNames time
