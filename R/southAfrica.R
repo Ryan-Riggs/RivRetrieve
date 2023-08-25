@@ -28,6 +28,9 @@ southAfrica <- function(site,
                         end_date = NULL,
                         sites = FALSE,
                         ...) {
+  ##Convert to date
+  start_date=as.Date(start_date)
+  end_date=as.Date(end_date)
 
   if (sites) {
     return(southAfrican_sites)
