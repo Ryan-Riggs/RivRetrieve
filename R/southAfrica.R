@@ -28,9 +28,6 @@ southAfrica <- function(site,
                         end_date = NULL,
                         sites = FALSE,
                         ...) {
-  ##Convert to date
-  start_date=as.Date(start_date)
-  end_date=as.Date(end_date)
 
   if (sites) {
     return(southAfrican_sites)
@@ -81,6 +78,9 @@ download_sa_data <- function(site,
                              start_date,
                              end_date,
                              primary) {
+  ##Convert to date
+  start_date=as.Date(start_date)
+  end_date=as.Date(end_date)
 
   ## divide timeseries into months, because we can only
   ## scrape data one month at a time.
