@@ -604,6 +604,13 @@ get_timeseries <- function(parameter_type,
 
 #' @title get_as_stored
 #' @name get_as_stored
+#' @param start_date Start date (formatted as YYYY-MM-DD) or just the
+#' year (YYYY)
+#' @param end_date End date (formatted as YYYY-MM-DD) or just the year (YYYY)
+#' @param parameter_type Parameter value
+#' @param station_number Station number
+#' @param tz TZ
+#' @param return_fields Return fields
 #' @examples
 #' # Groundwater level as stored by the BoM
 #' # PLUMB RD @ NARRABRI'
@@ -649,6 +656,13 @@ get_as_stored <- function(parameter_type,
 
 #' @title get_hourly
 #' @name get_hourly
+#' @param start_date Start date (formatted as YYYY-MM-DD) or just the
+#' year (YYYY)
+#' @param end_date End date (formatted as YYYY-MM-DD) or just the year (YYYY)
+#' @param parameter_type Parameter value
+#' @param station_number Station number
+#' @param tz TZ
+#' @param return_fields Return fields
 #' @examples
 #' # Hourly streamflow Cotter River at Gingera Gauge
 #' \dontrun{
@@ -706,6 +720,13 @@ get_hourly <- function(parameter_type,
 #' @param aggregation Whether the data is to be aggregated midnight to
 #' midnight (`24HR`) or from 9am-9am (`09HR`). The default is `24HR`. `09HR`
 #' is only available for mean discharge and total rainfall and evaporation.
+#' @param start_date Start date (formatted as YYYY-MM-DD) or just the
+#' year (YYYY)
+#' @param end_date End date (formatted as YYYY-MM-DD) or just the year (YYYY)
+#' @param parameter_type Parameter value
+#' @param station_number Station number
+#' @param tz TZ
+#' @param return_fields Return fields
 #' @examples
 #' # Download daily mean aggregated over the standard day
 #' \dontrun{
@@ -822,6 +843,13 @@ get_daily <- function(parameter_type,
 
 #' @title get_monthly
 #' @name get_monthly
+#' @param start_date Start date (formatted as YYYY-MM-DD) or just the
+#' year (YYYY)
+#' @param end_date End date (formatted as YYYY-MM-DD) or just the year (YYYY)
+#' @param parameter_type Parameter value
+#' @param station_number Station number
+#' @param tz TZ
+#' @param return_fields Return fields
 #' @examples
 #' # Monthly average dry air temperature at Corin Dam
 #' \dontrun{
@@ -879,6 +907,10 @@ get_monthly <- function(parameter_type,
 #' @param start_date Start date (formatted as YYYY-MM-DD) or just the
 #' year (YYYY)
 #' @param end_date End date (formatted as YYYY-MM-DD) or just the year (YYYY)
+#' @param parameter_type Parameter value
+#' @param station_number Station number
+#' @param tz TZ
+#' @param return_fields Return fields
 #' @examples
 #' # Download annual rainfall for Cotter Hut
 #' \dontrun{

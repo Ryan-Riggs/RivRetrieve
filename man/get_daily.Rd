@@ -16,6 +16,15 @@ get_daily(
 )
 }
 \arguments{
+\item{parameter_type}{Parameter value}
+
+\item{station_number}{Station number}
+
+\item{start_date}{Start date (formatted as YYYY-MM-DD) or just the
+year (YYYY)}
+
+\item{end_date}{End date (formatted as YYYY-MM-DD) or just the year (YYYY)}
+
 \item{var}{The daily variable of interest. Valid inputs are \code{mean}, \code{min},
 \code{max} for continuous series such as discharge and \code{total} for discrete
 series such as rainfall and evaporation.}
@@ -23,6 +32,10 @@ series such as rainfall and evaporation.}
 \item{aggregation}{Whether the data is to be aggregated midnight to
 midnight (\verb{24HR}) or from 9am-9am (\verb{09HR}). The default is \verb{24HR}. \verb{09HR}
 is only available for mean discharge and total rainfall and evaporation.}
+
+\item{tz}{TZ}
+
+\item{return_fields}{Return fields}
 }
 \description{
 get_daily
