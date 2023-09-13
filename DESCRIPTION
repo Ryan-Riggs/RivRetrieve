@@ -1,5 +1,5 @@
 Package: RivRetrieve
-Title: Retrieve global river gauge data from R
+Title: Retrieve Global River Gauge Data from R
 Version: 0.0.0.9000
 Authors@R:
     c(person("Ryan", "Riggs", ,  "rriggs@tamu.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-6834-9469")),
