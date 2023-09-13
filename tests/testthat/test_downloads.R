@@ -10,9 +10,6 @@ test_that("Downloading site locations is working", {
   Brazil_sites <- brazil(sites = TRUE)
   expect_s3_class(Brazil_sites, "data.frame")
 
-  Canada_sites <- canada(sites = TRUE)
-  expect_s3_class(Canada_sites, "data.frame")
-
   Chile_sites <- chile(sites = TRUE)
   expect_s3_class(Chile_sites, "data.frame")
 
@@ -43,10 +40,6 @@ test_that("Download stage functions are working", {
   brazil_df <- brazil(Brazil_sites$site[1], "stage")
   expect_s3_class(brazil_df, "data.frame")
 
-  Canada_sites <- canada(sites = TRUE)
-  canada_df <- canada(Canada_sites$site[1], "stage")
-  expect_s3_class(canada_df, "data.frame")
-
   France_sites <- france(sites = TRUE)
   france_df <- france('K027401001', "stage")
   expect_s3_class(france_df, "data.frame")
@@ -73,11 +66,6 @@ test_that("Download discharge functions are working", {
   Brazil_sites <- brazil(sites = TRUE)
   brazil_df <- brazil(Brazil_sites$site[1], "discharge")
   expect_s3_class(brazil_df, "data.frame")
-
-
-  Canada_sites <- canada(sites = TRUE)
-  canada_df <- canada(Canada_sites$site[1], "discharge")
-  expect_s3_class(canada_df, "data.frame")
 
   Chile_sites <- chile(sites = TRUE)
   chile_df <- chile(Chile_sites$site[1], "discharge")
@@ -115,11 +103,6 @@ test_that("Download raw data are working", {
   brazil_df <- brazil(Brazil_sites$site[1], "discharge")
   brazil_raw=original(brazil_df)
   expect_s3_class(brazil_raw, "data.frame")
-
-  Canada_sites <- canada(sites = TRUE)
-  canada_df <- canada(Canada_sites$site[1], "discharge")
-  canada_raw=original(canada_df)
-  expect_s3_class(canada_raw, "data.frame")
 
   Chile_sites <- chile(sites = TRUE)
   chile_df <- chile(Chile_sites$site[1], "discharge")

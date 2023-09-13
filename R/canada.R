@@ -16,6 +16,8 @@
 #' @return data frame of discharge time-series
 #' @examples
 #' \dontrun{
+#' For the first time, you must run:
+#' tidyhydat::download_hydat()
 #' df = canada("01AD003")
 #' plot(df$Date, df$Q, type='l')
 #' }
@@ -27,8 +29,6 @@ canada <- function(site,
                    end_date = NULL,
                    sites = FALSE,
                    ...) {
-  hydat_version=try(tidyhydat::hy_version())
-  if(is.data.frame(hydat_version)){
   if (sites) {
     return(canada_sites)
   }
@@ -51,31 +51,5 @@ canada <- function(site,
     class = "rr_tbl"
   )
   return(out)
-  }
-  else{
-    tidyhydat::download_hydat(ask=FALSE)
-    if (sites) {
-      return(canada_sites)
-    }
-    start_date <- .get_start_date(start_date)
-    end_date <- .get_end_date(end_date)
-    column_name <- .get_column_name(variable)
-    if (variable == "discharge") {
-      original_data <- hy_daily_flows(site)
-    } else if (variable == "stage") {
-      original_data <- hy_daily_levels(site)
-    }
-    original_data <- as_tibble(original_data)
-    data <- original_data %>%
-      dplyr::select(all_of(c("Date", "Value"))) %>%
-      rename(!!column_name := "Value") %>%
-      filter(.data$Date >= start_date & .data$Date <= end_date)
-    out <- new_tibble(
-      data,
-      original = original_data,
-      class = "rr_tbl"
-    )
-    return(out)
-  }
   }
 
