@@ -447,10 +447,6 @@ get_parameter_list <- function(station_number, return_fields) {
 #' returned if no data is returned  from the query. The columns of the tibble
 #' are returned as character classes and have not been formatted to more
 #' appropriate correct classes (this happens in other functions).
-#' @seealso
-#' * \url{http://www.bom.gov.au/waterdata/}
-#' * [BoM Guide to Sensor Observation Services (SOS2) for Water Data Online](http://www.bom.gov.au/waterdata/wiski-web-public/Guide\%20to\%20Sensor\%20Observation\%20Services\%20(SOS2)\%20for\%20Water\%20Data\%20\%20Online\%20v1.0.1.pdf)
-#'
 #' @examples
 #' # Accessible dam storage, as shown on the BoM Water Storage dashboard
 #' \dontrun{
@@ -972,24 +968,6 @@ get_yearly <- function(parameter_type,
 #' requested.
 #' @return
 #' A vector of parameters.
-#' @details
-#' The units of the parameters are as follows:
-#'
-#' * Water Course Discharge (m3/s)
-#' * Water Course Level (m)
-#' * Electrical conductivity at 25C (µS/cm)
-#' * Turbidity (NTU)
-#' * pH
-#' * Water Temperature (ºC)
-#' * Storage Volume (ML)
-#' * Storage Level (m)
-#' * Ground Water Level (m)
-#' * Rainfall (mm)
-#' * Evaporation (mm)
-#' * Dry Air Temperature (ºC)
-#' * Relative Humidity (%)
-#' * Wind Speed (m/s)
-#' @md
 #' @examples
 #' parameters()
 #' parameters("continuous")

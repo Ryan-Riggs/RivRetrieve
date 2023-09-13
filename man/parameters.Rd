@@ -19,33 +19,8 @@ A vector of parameters.
 \code{parameters} returns a vector of parameters that can be retrieved from
 Water Data Online.
 }
-\details{
-The units of the parameters are as follows:
-\itemize{
-\item Water Course Discharge (m3/s)
-\item Water Course Level (m)
-\item Electrical conductivity at 25C (µS/cm)
-\item Turbidity (NTU)
-\item pH
-\item Water Temperature (ºC)
-\item Storage Volume (ML)
-\item Storage Level (m)
-\item Ground Water Level (m)
-\item Rainfall (mm)
-\item Evaporation (mm)
-\item Dry Air Temperature (ºC)
-\item Relative Humidity (\%)
-\item Wind Speed (m/s)
-}
-}
 \examples{
 parameters()
 parameters("continuous")
 parameters("discrete")
-}
-\seealso{
-\itemize{
-\item \url{http://www.bom.gov.au/waterdata/}
-\item \href{http://www.bom.gov.au/waterdata/wiski-web-public/Guide\\%20to\\%20Sensor\\%20Observation\\%20Services\\%20(SOS2)\\%20for\\%20Water\\%20Data\\%20\\%20Online\\%20v1.0.1.pdf}{BoM Guide to Sensor Observation Services (SOS2) for Water Data Online}
-}
 }
