@@ -18,7 +18,7 @@ RoxygenNote: 7.2.1
 Depends:
     R (>= 4.1)
 Imports:
-    bomWater,
+    bomWater ('0.4.0'),
     dataRetrieval,
     devtools,
     dplyr,
@@ -34,7 +34,6 @@ Imports:
     tibble,
     tidyhydat,
     tidyr
-Remotes: buzacott/bomWater
 Suggests: 
     knitr,
     rmarkdown,
