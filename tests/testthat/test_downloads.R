@@ -1,6 +1,7 @@
 context("Download functions")
 library(testthat)
 library(RivRetrieve)
+library(BBmisc)
 
 test_that("Downloading site locations is working", {
 
@@ -73,6 +74,7 @@ test_that("Download discharge functions are working", {
   Brazil_sites <- brazil(sites = TRUE)
   brazil_df <- brazil(Brazil_sites$site[1], "discharge")
   expect_s3_class(brazil_df, "data.frame")
+
 
   Canada_sites <- canada(sites = TRUE)
   canada_df <- canada(Canada_sites$site[1], "discharge")

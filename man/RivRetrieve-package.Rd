@@ -25,6 +25,9 @@ Useful links:
 Authors:
 \itemize{
   \item Simon Moulds \email{sim.moulds@gmail.com} (\href{https://orcid.org/0000-0002-7297-482X}{ORCID})
+  \item Michel Wortmann \email{michel.wortmann@ouce.ox.ac.uk} (\href{https://orcid.org/0000-0002-1879-7674}{ORCID})
+  \item Louise Slater \email{louise.slater@ouce.ox.ac.uk} (\href{https://orcid.org/0000-0001-9416-488X}{ORCID})
+  \item George Allen \email{geoallen@vt.edu} (\href{https://orcid.org/0000-0001-8301-5301}{ORCID})
 }
 
 }
