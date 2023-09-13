@@ -63,6 +63,71 @@ australia <- function(site,
 
 
 
+#' @title Get time series
+#' @md
+#' @description Get timeseries data from Water Data online
+#' @details This function can be used if you want to retrieve a specific
+#' timeseries that is not the default quality checked one.
+#'
+#' Common valid return fields are:
+#'
+#' * Timestamp
+#' * Value
+#' * Quality Code
+#' * Interpolation Type
+#'
+#' Other valid return fields (depending on the parameter requested) may be:
+#'
+#' * Absolute Value
+#' * AV Interpolation
+#' * AV Quality Code
+#' * Runoff Value
+#' * RV Interpolation
+#' * RV Quality Code
+#' * Aggregation
+#' * Accuracy
+#'
+#' If the request is not valid it will fail.
+#' @param parameter_type The water data parameter type (e.g. Water Course
+#' Discharge). See \code{\link{parameters()}} for a full list.
+#' @param station_number The AWRC station number.
+#' @param start_date Start date formatted as a string or date class
+#' (YYYY-MM-DD).
+#' @param end_date End date formatted as a string or date class (YYYY-MM-DD).
+#' @param tz Optional: the desired time zone for the output timeseries. Input
+#' must be an Olson Name (see `OlsonNames()`). By default the timeseries are
+#' returned in non-DST time zones (AEST, ACST or AWST) depending on the
+#' station location.
+#' @param return_fields Optional: columns to be returned from Water Data Online.
+#' By default Timestamp, Value and Quality Code are returned.
+#' @param ts_name The timeseries name (e.g. DMQaQc.Merged.DailyMean.24HR) that
+#' is desired.
+#' @return
+#' A tibble with columns with the requested return_fields. A zero row tibble is
+#' returned if no data is returned  from the query. The columns of the tibble
+#' are returned as character classes and have not been formatted to more
+#' appropriate correct classes (this happens in other functions).
+#' @seealso
+#' * \url{http://www.bom.gov.au/waterdata/}
+#' * [BoM Guide to Sensor Observation Services (SOS2) for Water Data Online](http://www.bom.gov.au/waterdata/wiski-web-public/Guide\%20to\%20Sensor\%20Observation\%20Services\%20(SOS2)\%20for\%20Water\%20Data\%20\%20Online\%20v1.0.1.pdf)
+#'
+#' @examples
+#' # Accessible dam storage, as shown on the BoM Water Storage dashboard
+#' \dontrun{
+#' get_timeseries(
+#'   parameter_type = "Storage Volume",
+#'   "G8150011",
+#'   "2020-01-01",
+#'   "2020-01-31",
+#'   ts_name = "PR02AVQaQc.Merged.DailyMean.24HR",
+#'   tz = NULL,
+#'   return_fields = c("Timestamp", "Value", "Quality Code")
+#' )
+#' }
+#' # See the linked SOS2 manual in See Also to find more timeseries names
+#' @author Alexander Buzacott
+#' @export
+
 get_timeseries <- function(parameter_type,
                            station_number,
                            start_date,
@@ -193,7 +258,19 @@ get_timeseries <- function(parameter_type,
   return(timeseries_values)
 }
 
-
+#' @template timeseriesDocs
+#' @examples
+#' # Groundwater level as stored by the BoM
+#' # PLUMB RD @ NARRABRI'
+#' \dontrun{
+#' get_as_stored(
+#'   parameter_type = "Ground Water Level",
+#'   station_number = "GW971623.3.3",
+#'   start_date = "2020-03-01",
+#'   end_date = "2020-03-01"
+#' )
+#' }
+#' @export
 get_as_stored <- function(parameter_type,
                           station_number,
                           start_date,
@@ -225,7 +302,18 @@ get_as_stored <- function(parameter_type,
   return(timeseries_values)
 }
 
-
+#' @template timeseriesDocs
+#' @examples
+#' # Hourly streamflow Cotter River at Gingera Gauge
+#' \dontrun{
+#' get_hourly(
+#'   parameter_type = "Water Course Discharge",
+#'   station_number = "410730",
+#'   start_date = "2020-01-01",
+#'   end_date = "2020-01-31"
+#' )
+#' }
+#' @export
 get_hourly <- function(parameter_type,
                        station_number,
                        start_date,
@@ -264,7 +352,51 @@ get_hourly <- function(parameter_type,
   return(timeseries_values)
 }
 
-
+#' @template timeseriesDocs
+#' @param var The daily variable of interest. Valid inputs are `mean`, `min`,
+#' `max` for continuous series such as discharge and `total` for discrete
+#' series such as rainfall and evaporation.
+#' @param aggregation Whether the data is to be aggregated midnight to
+#' midnight (`24HR`) or from 9am-9am (`09HR`). The default is `24HR`. `09HR`
+#' is only available for mean discharge and total rainfall and evaporation.
+#' @examples
+#' # Download daily mean aggregated over the standard day
+#' \dontrun{
+#' get_daily(
+#'   parameter_type = "Water Course Discharge",
+#'   station_number = "410730",
+#'   start_date = "2020-01-01",
+#'   end_date = "2020-01-31",
+#'   var = "mean",
+#'   aggregation = "24HR"
+#' )
+#' }
+#'
+#' # Download daily mean aggregated between 9am to 9am
+#' \dontrun{
+#' get_daily(
+#'   parameter_type = "Water Course Discharge",
+#'   station_number = "410730",
+#'   start_date = "2020-01-01",
+#'   end_date = "2020-01-31",
+#'   var = "mean",
+#'   aggregation = "09HR"
+#' )
+#' }
+#'
+#' # Download the daily max over the standard day
+#' \dontrun{
+#' get_daily(
+#'   parameter_type = "Water Course Discharge",
+#'   station_number = "410730",
+#'   start_date = "2020-01-01",
+#'   end_date = "2020-01-31",
+#'   var = "max",
+#'   aggregation = "24HR"
+#' )
+#' }
+#'
+#' @export
 get_daily <- function(parameter_type,
                       station_number,
                       start_date,
@@ -341,7 +473,18 @@ get_daily <- function(parameter_type,
   return(timeseries_values)
 }
 
-
+#' @template timeseriesDocs
+#' @examples
+#' # Monthly average dry air temperature at Corin Dam
+#' \dontrun{
+#' get_monthly(
+#'   parameter_type = "Dry Air Temperature",
+#'   station_number = "570947",
+#'   start_date = "2016-01-01",
+#'   end_date = "2016-06-01"
+#' )
+#' }
+#' @export
 get_monthly <- function(parameter_type,
                         station_number,
                         start_date,
@@ -383,7 +526,22 @@ get_monthly <- function(parameter_type,
   return(timeseries_values)
 }
 
-
+#' @template timeseriesDocs
+#' @param start_date Start date (formatted as YYYY-MM-DD) or just the
+#' year (YYYY)
+#' @param end_date End date (formatted as YYYY-MM-DD) or just the year (YYYY)
+#' @examples
+#' # Download annual rainfall for Cotter Hut
+#' \dontrun{
+#' get_yearly(
+#'   parameter_type = "Rainfall",
+#'   station_number = "570946",
+#'   start_date = 2016,
+#'   end_date = 2020
+#' )
+#' }
+#'
+#' @export
 get_yearly <- function(parameter_type,
                        station_number,
                        start_date,
@@ -428,7 +586,43 @@ get_yearly <- function(parameter_type,
   return(timeseries_values)
 }
 
-
+#' @title Available water parameters
+#' @aliases parameters()
+#' @description
+#' `parameters` returns a vector of parameters that can be retrieved from
+#' Water Data Online.
+#' @param pars Optional: if empty all available parameters will be returned.
+#' Alternatively, a vector of the continuous or discrete parameters can be
+#' requested.
+#' @return
+#' A vector of parameters.
+#' @details
+#' The units of the parameters are as follows:
+#'
+#' * Water Course Discharge (m3/s)
+#' * Water Course Level (m)
+#' * Electrical conductivity at 25C (µS/cm)
+#' * Turbidity (NTU)
+#' * pH
+#' * Water Temperature (ºC)
+#' * Storage Volume (ML)
+#' * Storage Level (m)
+#' * Ground Water Level (m)
+#' * Rainfall (mm)
+#' * Evaporation (mm)
+#' * Dry Air Temperature (ºC)
+#' * Relative Humidity (%)
+#' * Wind Speed (m/s)
+#' @md
+#' @seealso
+#' * \url{http://www.bom.gov.au/waterdata/}
+#' * [BoM Guide to Sensor Observation Services (SOS2) for Water Data Online](http://www.bom.gov.au/waterdata/wiski-web-public/Guide\%20to\%20Sensor\%20Observation\%20Services\%20(SOS2)\%20for\%20Water\%20Data\%20\%20Online\%20v1.0.1.pdf)
+#' @author Alexander Buzacott
+#' @examples
+#' parameters()
+#' parameters("continuous")
+#' parameters("discrete")
+#' @export
 parameters <- function(pars) {
   continuous <- c(
     "Dry Air Temperature",
