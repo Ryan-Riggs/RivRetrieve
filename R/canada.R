@@ -27,7 +27,7 @@ canada <- function(site,
                    end_date = NULL,
                    sites = FALSE,
                    ...) {
-  hydat_version=try(tidyhydat::hy_version(ask=FALSE))
+  hydat_version=try(tidyhydat::hy_version())
   if(is.data.frame(hydat_version)){
   if (sites) {
     return(canada_sites)
@@ -53,7 +53,7 @@ canada <- function(site,
   return(out)
   }
   else{
-    tidyhydat::download_hydat()
+    tidyhydat::download_hydat(ask=FALSE)
     if (sites) {
       return(canada_sites)
     }
