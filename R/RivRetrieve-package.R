@@ -1,7 +1,6 @@
 #' RivRetrieve: Retrieve global river and stage data
 #'
 #' @aliases NULL RivRetrieve-package
-#' @import bomWater
 #' @import dataRetrieval
 #' @import devtools
 #' @import dplyr
