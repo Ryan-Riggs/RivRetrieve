@@ -258,7 +258,6 @@ get_timeseries <- function(parameter_type,
   return(timeseries_values)
 }
 
-#' @template timeseriesDocs
 #' @examples
 #' # Groundwater level as stored by the BoM
 #' # PLUMB RD @ NARRABRI'
