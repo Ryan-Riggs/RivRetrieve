@@ -301,7 +301,6 @@ get_as_stored <- function(parameter_type,
   return(timeseries_values)
 }
 
-#' @template timeseriesDocs
 #' @examples
 #' # Hourly streamflow Cotter River at Gingera Gauge
 #' \dontrun{
@@ -351,7 +350,6 @@ get_hourly <- function(parameter_type,
   return(timeseries_values)
 }
 
-#' @template timeseriesDocs
 #' @param var The daily variable of interest. Valid inputs are `mean`, `min`,
 #' `max` for continuous series such as discharge and `total` for discrete
 #' series such as rainfall and evaporation.
@@ -472,7 +470,6 @@ get_daily <- function(parameter_type,
   return(timeseries_values)
 }
 
-#' @template timeseriesDocs
 #' @examples
 #' # Monthly average dry air temperature at Corin Dam
 #' \dontrun{
@@ -525,7 +522,6 @@ get_monthly <- function(parameter_type,
   return(timeseries_values)
 }
 
-#' @template timeseriesDocs
 #' @param start_date Start date (formatted as YYYY-MM-DD) or just the
 #' year (YYYY)
 #' @param end_date End date (formatted as YYYY-MM-DD) or just the year (YYYY)
