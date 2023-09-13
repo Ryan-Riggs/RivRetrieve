@@ -18,7 +18,7 @@ RoxygenNote: 7.2.1
 Depends:
     R (>= 4.1)
 Imports:
-    bomWater ('0.4.0'),
+    bomWater (0.4.0),
     dataRetrieval,
     devtools,
     dplyr,
