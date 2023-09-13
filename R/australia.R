@@ -602,6 +602,8 @@ get_timeseries <- function(parameter_type,
   return(timeseries_values)
 }
 
+#' @title get_as_stored
+#' @name get_as_stored
 #' @examples
 #' # Groundwater level as stored by the BoM
 #' # PLUMB RD @ NARRABRI'
@@ -645,6 +647,8 @@ get_as_stored <- function(parameter_type,
   return(timeseries_values)
 }
 
+#' @title get_hourly
+#' @name get_hourly
 #' @examples
 #' # Hourly streamflow Cotter River at Gingera Gauge
 #' \dontrun{
@@ -694,6 +698,8 @@ get_hourly <- function(parameter_type,
   return(timeseries_values)
 }
 
+#' @title get_daily
+#' @name get_daily
 #' @param var The daily variable of interest. Valid inputs are `mean`, `min`,
 #' `max` for continuous series such as discharge and `total` for discrete
 #' series such as rainfall and evaporation.
@@ -814,6 +820,8 @@ get_daily <- function(parameter_type,
   return(timeseries_values)
 }
 
+#' @title get_monthly
+#' @name get_monthly
 #' @examples
 #' # Monthly average dry air temperature at Corin Dam
 #' \dontrun{
@@ -866,6 +874,8 @@ get_monthly <- function(parameter_type,
   return(timeseries_values)
 }
 
+#' @title get_yearly
+#' @name get_yearly
 #' @param start_date Start date (formatted as YYYY-MM-DD) or just the
 #' year (YYYY)
 #' @param end_date End date (formatted as YYYY-MM-DD) or just the year (YYYY)
@@ -924,6 +934,7 @@ get_yearly <- function(parameter_type,
 
   return(timeseries_values)
 }
+
 
 #' @title Available water parameters
 #' @aliases parameters()
