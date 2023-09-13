@@ -8,7 +8,7 @@ Authors@R:
       person("Louise", "Slater", , "louise.slater@ouce.ox.ac.uk",role=c("aut"), comment = c(ORCID = "0000-0001-9416-488X")),
       person("George", "Allen", , "geoallen@vt.edu",role=c("aut"), comment = c(ORCID = "0000-0001-8301-5301"))
       )
-Description: Functions to retrieve global river gauge data from various national-level APIs
+Description: Functions to retrieve global river gauge data from various national-level websites.
 LazyData: true
 License: MIT + file LICENSE
 URL: https://github.com/Ryan-Riggs/RivRetrieve
