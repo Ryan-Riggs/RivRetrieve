@@ -5,7 +5,7 @@
 \alias{RivRetrieve-package}
 \title{RivRetrieve: Retrieve global river and stage data}
 \description{
-Functions to retrieve global river gauge data from various national-level APIs.
+Functions to retrieve global river gauge data from various national-level websites.
 }
 \examples{
 \dontrun{

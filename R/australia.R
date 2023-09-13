@@ -60,3 +60,80 @@ australia <- function(site,
   )
   return(out)
 }
+
+
+get_daily <- function(parameter_type,
+                      station_number,
+                      start_date,
+                      end_date,
+                      var,
+                      aggregation,
+                      tz,
+                      return_fields) {
+  parameter_type <-
+    parameters()[tolower(parameter_type) == tolower(parameters())]
+  if (length(parameter_type) == 0) {
+    stop("Invalid parameter requested")
+  }
+
+  # Handle possible formats of var input
+  if (missing(var)) {
+    if (parameter_type %in% parameters("discrete")) {
+      var <- "Total"
+    } else {
+      var <- "Mean"
+    }
+  } else {
+    var <- stringr::str_to_title(var)
+  }
+  if (missing(aggregation)) {
+    aggregation <- "24HR"
+  } else {
+    aggregation <- toupper(aggregation)
+  }
+
+  ts_name <- paste0("DMQaQc.Merged.Daily", var, ".", aggregation)
+
+  if (parameter_type %in% parameters("continuous")) {
+    valid_daily_ts <- c(
+      "DMQaQc.Merged.DailyMean.24HR",
+      "DMQaQc.Merged.DailyMax.24HR",
+      "DMQaQc.Merged.DailyMin.24HR"
+    )
+    if (parameter_type == "Water Course Discharge") {
+      valid_daily_ts <- c(
+        valid_daily_ts,
+        "DMQaQc.Merged.DailyMean.09HR"
+      )
+    }
+  }
+
+  if (parameter_type %in% parameters("discrete")) {
+    valid_daily_ts <- c(
+      "DMQaQc.Merged.DailyTotal.09HR",
+      "DMQaQc.Merged.DailyTotal.24HR"
+    )
+  }
+
+  if (!ts_name %in% valid_daily_ts) {
+    stop("Invalid combination of parameter_type, var and aggregation")
+  }
+
+  if (missing(tz)) tz <- NULL
+
+  if (missing(return_fields)) {
+    return_fields <- c("Timestamp", "Value", "Quality Code")
+  }
+
+  timeseries_values <- get_timeseries(
+    parameter_type,
+    station_number,
+    start_date,
+    end_date,
+    tz,
+    return_fields,
+    ts_name
+  )
+
+  return(timeseries_values)
+}
