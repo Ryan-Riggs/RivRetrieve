@@ -137,3 +137,33 @@ get_daily <- function(parameter_type,
 
   return(timeseries_values)
 }
+
+parameters <- function(pars) {
+  continuous <- c(
+    "Dry Air Temperature",
+    "Relative Humidity",
+    "Wind Speed",
+    "Electrical Conductivity At 25C",
+    "Turbidity",
+    "pH",
+    "Water Temperature",
+    "Ground Water Level",
+    "Water Course Level",
+    "Water Course Discharge",
+    "Storage Level",
+    "Storage Volume"
+  )
+  discrete <- c(
+    "Rainfall",
+    "Evaporation"
+  )
+
+  if (missing(pars)) {
+    return(c(discrete, continuous))
+  } else {
+    if (!tolower(pars) %in% c("continuous", "discrete")) {
+      stop("Invalid parameter category entered")
+    }
+    return(get(pars))
+  }
+}
