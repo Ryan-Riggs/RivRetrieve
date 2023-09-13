@@ -3,7 +3,11 @@ Title: Retrieve global river gauge data from R
 Version: 0.0.0.9000
 Authors@R:
     c(person("Ryan", "Riggs", ,  "rriggs@tamu.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-6834-9469")),
-      person("Simon", "Moulds", , "sim.moulds@gmail.com", role = c("aut"), comment = c(ORCID = "0000-0002-7297-482X")))
+      person("Simon", "Moulds", , "sim.moulds@gmail.com", role = c("aut"), comment = c(ORCID = "0000-0002-7297-482X")),
+      person("Michel", "Wortmann", , "michel.wortmann@ouce.ox.ac.uk",role=c("aut"), comment = c(ORCID = "0000-0002-1879-7674")),
+      person("George", "Allen", , "geoallen@vt.edu",role=c("aut"), comment = c(ORCID = "0000-0001-8301-5301")),
+      person("Louise", "Slater", , "louise.slater@ouce.ox.ac.uk",role=c("aut"), comment = c(ORCID = "0000-0001-9416-488X"))
+      )
 Description: Functions to retrieve global river gauge data from various national-level APIs.
 LazyData: true
 License: MIT + file LICENSE
@@ -33,5 +37,7 @@ Imports:
 Remotes: buzacott/bomWater
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
+Config/testthat/edition: 3
