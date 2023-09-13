@@ -26,6 +26,3 @@ appropriate correct classes (this happens in other functions).
 \code{get_timeseries_values} returns the timeseries values between a start and end
 date for given timeseries ID.
 }
-\author{
-Alexander Buzacott
-}

@@ -73,7 +73,6 @@ australia <- function(site,
 #' A tibble is returned with the columns depending on the request. For
 #' \code{get_timeseries} requests, a tibble with zero rows is returned
 #' if there is no data available for that query.
-#' @author Alexander Buzacott
 make_bom_request <- function(params) {
   bom_url <- "http://www.bom.gov.au/waterdata/services"
 
@@ -179,7 +178,6 @@ make_bom_request <- function(params) {
 #' * object_type
 #' * custom_attributes
 #'
-#' @author Alexander Buzacott
 #'
 #' @examples
 #' # Get all Water Course Discharge Stations
@@ -280,7 +278,6 @@ get_station_list <- function(parameter_type, station_number, bbox, return_fields
 #' @return
 #' Returns a tibble with columns station_name, station_no, station_id, ts_id,
 #' ts_name, parametertype_id, parametertype_name.
-#' @author Alexander Buzacott
 get_timeseries_id <- function(parameter_type, station_number, ts_name) {
   params <- list(
     "request" = "getTimeseriesList",
@@ -308,7 +305,6 @@ get_timeseries_id <- function(parameter_type, station_number, ts_name) {
 #' returned if no data is returned  from the query. The columns of the tibble
 #' are returned as character classes and have not been formatted to more
 #' appropriate correct classes (this happens in other functions).
-#' @author Alexander Buzacott
 get_timeseries_values <- function(ts_id, start_date, end_date, return_fields) {
   params <- list(
     "request" = "getTimeseriesValues",
@@ -469,7 +465,6 @@ get_parameter_list <- function(station_number, return_fields) {
 #' )
 #' }
 #' # See the linked SOS2 manual in See Also to find more timeseries names
-#' @author Alexander Buzacott
 #' @export
 
 get_timeseries <- function(parameter_type,
@@ -999,7 +994,6 @@ get_yearly <- function(parameter_type,
 #' @seealso
 #' * \url{http://www.bom.gov.au/waterdata/}
 #' * [BoM Guide to Sensor Observation Services (SOS2) for Water Data Online](http://www.bom.gov.au/waterdata/wiski-web-public/Guide\%20to\%20Sensor\%20Observation\%20Services\%20(SOS2)\%20for\%20Water\%20Data\%20\%20Online\%20v1.0.1.pdf)
-#' @author Alexander Buzacott
 #' @examples
 #' parameters()
 #' parameters("continuous")

@@ -98,6 +98,3 @@ return_fields <- c(
 get_station_list("Water Course Discharge", "410730", return_fields)
 }
 }
-\author{
-Alexander Buzacott
-}

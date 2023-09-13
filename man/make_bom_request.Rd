@@ -20,6 +20,3 @@ A parameter list is passed to make request and the JSON return is parsed
 depending on what is requested. This function can be used if you want to
 build your own JSON queries.
 }
-\author{
-Alexander Buzacott
-}

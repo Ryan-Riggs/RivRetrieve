@@ -22,6 +22,3 @@ ts_name, parametertype_id, parametertype_name.
 \code{get_timeseries_id} retrieves the timeseries ID that can be used to obtain
 values for a parameter type, station and timeseries combination.
 }
-\author{
-Alexander Buzacott
-}
