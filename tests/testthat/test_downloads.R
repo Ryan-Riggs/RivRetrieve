@@ -1,7 +1,6 @@
 context("Download functions")
 library(testthat)
 library(RivRetrieve)
-library(BBmisc)
 
 test_that("Downloading site locations is working", {
 
