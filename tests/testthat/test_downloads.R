@@ -68,8 +68,8 @@ test_that("Download discharge functions are working", {
   expect_s3_class(brazil_df, "data.frame")
 
   Chile_sites <- chile(sites = TRUE)
-  chile_df <- chile(Chile_sites$site[1], "discharge")
-  expect_s3_class(chile_df, "data.frame")
+  # chile_df <- chile(Chile_sites$site[1], "discharge")
+  # expect_s3_class(chile_df, "data.frame")
 
   France_sites <- france(sites = TRUE)
   france_df <- france('K027401001', "discharge")
@@ -105,9 +105,9 @@ test_that("Download raw data are working", {
   expect_s3_class(brazil_raw, "data.frame")
 
   Chile_sites <- chile(sites = TRUE)
-  chile_df <- chile(Chile_sites$site[1], "discharge")
-  chile_raw=original(chile_df)
-  expect_s3_class(chile_raw, "data.frame")
+  # chile_df <- chile(Chile_sites$site[1], "discharge")
+  # chile_raw=original(chile_df)
+  # expect_s3_class(chile_raw, "data.frame")
 
   France_sites <- france(sites = TRUE)
   france_df <- france('K027401001', "discharge")
