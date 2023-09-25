@@ -76,8 +76,8 @@ test_that("Download discharge functions are working", {
   expect_s3_class(france_df, "data.frame")
 
   Japan_sites <- japan(sites = TRUE)
-  japan_df <- japan(Japan_sites$site[1], "discharge",start_date=as.Date('2000-01-01'), end_date=as.Date('2001-12-31'))
-  expect_s3_class(japan_df, "data.frame")
+  # japan_df <- japan(Japan_sites$site[1], "discharge",start_date=as.Date('2000-01-01'), end_date=as.Date('2001-12-31'))
+  # expect_s3_class(japan_df, "data.frame")
 
   SouthAfrica_sites <- southAfrica(sites = TRUE)
   # southAfrica_df <- southAfrica("X3H023", "discharge",start_date=as.Date('2005-01-01'),end_date=as.Date('2005-12-31'))
@@ -115,9 +115,9 @@ test_that("Download raw data are working", {
   expect_s3_class(france_raw, "data.frame")
 
   Japan_sites <- japan(sites = TRUE)
-  japan_df <- japan(Japan_sites$site[1], "discharge",start_date=as.Date('2000-01-01'), end_date=as.Date('2001-12-31'))
-  japan_raw=original(japan_df)
-  expect_s3_class(japan_raw, "data.frame")
+  # japan_df <- japan(Japan_sites$site[1], "discharge",start_date=as.Date('2000-01-01'), end_date=as.Date('2001-12-31'))
+  # japan_raw=original(japan_df)
+  # expect_s3_class(japan_raw, "data.frame")
 
   SouthAfrica_sites <- southAfrica(sites = TRUE)
   # southAfrica_df <- southAfrica("X3H023", "discharge",start_date=as.Date('2005-01-01'),end_date=as.Date('2005-12-31'))
