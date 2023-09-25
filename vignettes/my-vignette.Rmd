@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 ```
 ## Here is a quick tutorial for RivRetrieve functions:
 
-The `RivRetrieve` package is developed to efficiently access and download global river gauge data into an R environment. While numerous river data exists, our package is currently limited to daily measurements of river stage (meters) and discharge (cubic meters per second) for: Australia, Brazil, Canada, Chile, France, Japan, Mexico, South Africa, the United Kingdom, and the United States.
+The `RivRetrieve` package is developed to efficiently access and download global river gauge data into an R environment. While numerous river data exists, our package is currently limited to daily measurements of river stage (meters) and discharge (cubic meters per second) for: Australia, Brazil, Canada, Chile, France, Japan, South Africa, the United Kingdom, and the United States.
 ```{r setup}
 library(RivRetrieve)
 # Amazon River near Obidos, Brazil
@@ -37,7 +37,7 @@ Stage is provided in meters and discharge is provided in cubic meters per second
 ```{r}
 raw=original(discharge)
 ```
-```{r,echo=FALSE}
+```{r,echo=TRUE}
 library(knitr)
 kable(raw[1:5,],caption='Raw Brazilian gauge data')
 ```
@@ -46,7 +46,7 @@ kable(raw[1:5,],caption='Raw Brazilian gauge data')
 ```{r}
 brazilSites=brazil(sites=TRUE)
 ```
-```{r,echo=FALSE}
+```{r,echo=TRUE}
 kable(brazilSites[1:10,],caption='Example Brazilian river gauge locations')
 ```
 
