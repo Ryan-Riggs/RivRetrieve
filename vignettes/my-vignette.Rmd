@@ -21,10 +21,12 @@ The `RivRetrieve` package is developed to efficiently access and download global
 ```{r setup}
 library(RivRetrieve)
 # Amazon River near Obidos, Brazil
-siteNumber='17050001'
-discharge=brazil(site=siteNumber,variable='discharge')
-stage=brazil(site=siteNumber,variable='stage')
-
+## siteNumber='17050001'
+## discharge=brazil(site=siteNumber,variable='discharge')
+## stage=brazil(site=siteNumber,variable='stage')
+siteNumber="403213"
+discharge=australia(site=siteNumber,variable='discharge')
+stage=australia(site=siteNumber,variable='stage')
 plot(discharge$Date,discharge$Q, type='l',xlab='',ylab='Discharge (cms)')
 ```
 
@@ -39,25 +41,29 @@ raw=original(discharge)
 ```
 ```{r,echo=TRUE}
 library(knitr)
-kable(raw[1:5,],caption='Raw Brazilian gauge data')
+## kable(raw[1:5,],caption='Raw Brazilian gauge data')
+kable(raw[1:5,],caption='Raw Australian gauge data')
 ```
 
 ## Site locations for all agencies can also be found:
 ```{r}
-brazilSites=brazil(sites=TRUE)
+## brazilSites=brazil(sites=TRUE)
+australiaSites=australia(sites=TRUE)
 ```
 ```{r,echo=TRUE}
-kable(brazilSites[1:10,],caption='Example Brazilian river gauge locations')
+## kable(brazilSites[1:10,],caption='Example Brazilian river gauge locations')
+kable(australiaSites[1:10,],caption='Example Australian river gauge locations')
 ```
 
 ## Date defined retrieval
 Specific time periods can also be accessed if the entire time series is not needed.
 ```{r}
 # Last annual timeseries
-siteNumber='17050001'
+## siteNumber='17050001'
+siteNumber="403213"
 start='2023-01-01'
 end='2023-01-31'
-recent=brazil(site=siteNumber,variable='stage',start_date = start,end_date = end)
-
+## recent=brazil(site=siteNumber,variable='stage',start_date = start,end_date = end)
+recent=australia(site=siteNumber,variable='stage',start_date = start,end_date = end)
 plot(recent$Date,recent$H,type='l', xlab='',ylab='Stage (m)')
 ```

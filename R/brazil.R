@@ -54,15 +54,16 @@ download_hidroweb_data <- function(site, variable, ...) {
   ## Download data to a temporary location
   base_url <- "https://www.snirh.gov.br/hidroweb/rest/api/documento/convencionais?tipo=3&documentos="
   out <- tempfile()
-  res <- download.file(
-    paste0(base_url, site), out,
-    method = "curl", quiet = TRUE
-  )
-  if (res != 0) {
-    stop()
+  ## res <- download.file(
+  ##   paste0(base_url, site), out,
+  ##   method = "curl", quiet = TRUE
+  ## )
+  res <- GET(paste0(base_url, site), write_disk(out, overwrite = TRUE))
+  if (res$status != 200) {
+    stop(paste0("Could not download data for requested site (HTTP status: ", res$status, ")"))
   }
   tmpdir <- tempdir()
-  a <- unzip(out, exdir = tmpdir)
+  a <- try(unzip(out, exdir = tmpdir), silent = TRUE)
   if (variable == "discharge") {
     f <- unzip(a[grep("^(.*)/vazoes_(.*).zip", a)], exdir = tmpdir)
   } else if (variable == "stage") {
