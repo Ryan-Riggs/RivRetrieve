@@ -30,6 +30,8 @@ test_that("Downloading site locations is working", {
 
 })
 
+## TODO use httrtest, to avoid actually downloading data during tests
+
 ## test_that("Download stage functions are working", {
 
 ##   Australia_sites <- australia(sites = TRUE)
