@@ -114,7 +114,7 @@ download_sa_data <- function(site,
     ## data <- session(endpoint) %>%
     ##   html_element('body') %>%
     ##   html_text('pre')
-    response <- GET(URLencode(endpoint))
+    response <- GET(endpoint)
     data <- content(response) %>%
       html_element("body") %>%
       html_text("pre")
