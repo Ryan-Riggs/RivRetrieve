@@ -20,12 +20,11 @@ knitr::opts_chunk$set(
 The `RivRetrieve` package is developed to efficiently access and download global river gauge data into an R environment. While numerous river data exists, our package is currently limited to daily measurements of river stage (meters) and discharge (cubic meters per second) for: Australia, Brazil, Canada, Chile, France, Japan, South Africa, the United Kingdom, and the United States.
 ```{r setup}
 library(RivRetrieve)
-# Amazon River near Obidos, Brazil
-siteNumber='17050001'
-discharge=brazil(site=siteNumber,variable='discharge')
-stage=brazil(site=siteNumber,variable='stage')
-
-plot(discharge$Date,discharge$Q, type='l',xlab='',ylab='Discharge (cms)')
+## # Amazon River near Obidos, Brazil
+## siteNumber='17050001'
+## discharge=brazil(site=siteNumber,variable='discharge')
+## stage=brazil(site=siteNumber,variable='stage')
+## plot(discharge$Date,discharge$Q, type='l',xlab='',ylab='Discharge (cms)')
 ```
 
 RivRetrieve automatically outputs a dataframe containing a `Date` column of `datetime` values and either a `H` or `Q` `numeric` column for the stage and discharge variable, respectively. 
