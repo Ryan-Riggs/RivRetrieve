@@ -83,7 +83,7 @@ download_japan_data <- function(site, variable, start_date, end_date) {
       "&BGNDATE=", day,
       "&ENDDATE=", ending
     )
-    file <- html_session(website) %>%
+    file <- session(website) %>%
       read_html() %>%
       html_element("body") %>%
       html_table()

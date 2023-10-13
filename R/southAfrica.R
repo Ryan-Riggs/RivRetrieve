@@ -16,10 +16,10 @@
 #' @return data frame of discharge time-series
 #' @examples
 #' \dontrun{
-#' site <- "X3H023"
-#' start_date <- as.Date("2000-01-01")
-#' end_date <- as.Date("2010-01-01")
-#' x <- southAfrica(site, "stage", start_date, end_date)
+site <- "X3H023"
+start_date <- as.Date("2000-01-01")
+end_date <- as.Date("2010-01-01")
+x <- southAfrica(site, "stage", start_date, end_date)
 #' }
 #' @export
 southAfrica <- function(site,
@@ -111,9 +111,13 @@ download_sa_data <- function(site,
   for (i in 1:n_chunks) {
     chunk_start_date <- start_date + years((i-1) * chunk_size)
     endpoint <- construct_endpoint(site, data_type, chunk_start_date, end_date)
-    data <- session(endpoint) %>%
-      html_element('body') %>%
-      html_text('pre')
+    ## data <- session(endpoint) %>%
+    ##   html_element('body') %>%
+    ##   html_text('pre')
+    response <- GET(URLencode(endpoint))
+    data <- content(response) %>%
+      html_element("body") %>%
+      html_text("pre")
     data <- str_split(data, '\n')
     data <- unlist(data)
     ## Find out whether there is any data for
