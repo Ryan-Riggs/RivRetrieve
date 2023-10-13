@@ -16,10 +16,10 @@
 #' @return data frame of discharge time-series
 #' @examples
 #' \dontrun{
-site <- "X3H023"
-start_date <- as.Date("2000-01-01")
-end_date <- as.Date("2010-01-01")
-x <- southAfrica(site, "stage", start_date, end_date)
+#' site <- "X3H023"
+#' start_date <- as.Date("2000-01-01")
+#' end_date <- as.Date("2010-01-01")
+#' x <- southAfrica(site, "stage", start_date, end_date)
 #' }
 #' @export
 southAfrica <- function(site,
@@ -78,7 +78,7 @@ download_sa_data <- function(site,
                              start_date,
                              end_date,
                              primary) {
-  ##Convert to date
+  ## Convert to date
   start_date=as.Date(start_date)
   end_date=as.Date(end_date)
 
