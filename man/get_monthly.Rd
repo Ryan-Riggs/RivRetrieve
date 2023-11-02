@@ -35,7 +35,7 @@ get_monthly
 }
 \examples{
 # Monthly average dry air temperature at Corin Dam
-\donttest{
+\dontrun{
 get_monthly(
   parameter_type = "Dry Air Temperature",
   station_number = "570947",

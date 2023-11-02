@@ -35,7 +35,7 @@ get_hourly
 }
 \examples{
 # Hourly streamflow Cotter River at Gingera Gauge
-\donttest{
+\dontrun{
 get_hourly(
   parameter_type = "Water Course Discharge",
   station_number = "410730",

@@ -35,7 +35,7 @@ get_yearly
 }
 \examples{
 # Download annual rainfall for Cotter Hut
-\donttest{
+\dontrun{
 get_yearly(
   parameter_type = "Rainfall",
   station_number = "570946",

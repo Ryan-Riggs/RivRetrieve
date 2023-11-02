@@ -181,15 +181,15 @@ make_bom_request <- function(params) {
 #'
 #' @examples
 #' # Get all Water Course Discharge Stations
-#' \donttest{
+#' \dontrun{
 #' get_station_list()
 #' }
 #' # Just the details for Cotter River at Gingera
-#' \donttest{
+#' \dontrun{
 #' get_station_list(station_number = "410730")
 #' }
 #' # Rainfall stations
-#' \donttest{
+#' \dontrun{
 #' get_station_list(parameter_type = "Rainfall")
 #' }
 #' # Vector of return_fields
@@ -216,7 +216,7 @@ make_bom_request <- function(params) {
 #'   "custom_attributes"
 #' )
 #' # Get all attributes for one station
-#' \donttest{
+#' \dontrun{
 #' get_station_list("Water Course Discharge", "410730", return_fields)
 #' }
 #' @export
@@ -353,11 +353,11 @@ get_timeseries_values <- function(ts_id, start_date, end_date, return_fields) {
 #' A tibble with columns for each of the return fields.
 #' @examples
 #' # Return parameters for a single station
-#' \donttest{
+#' \dontrun{
 #' get_parameter_list(station_number = "410730")
 #' }
 #' # Return available parameters for multiple stations
-#' \donttest{
+#' \dontrun{
 #' get_parameter_list(station_number = c("410730", "570946"))
 #' }
 #' @export
@@ -449,7 +449,7 @@ get_parameter_list <- function(station_number, return_fields) {
 #' appropriate correct classes (this happens in other functions).
 #' @examples
 #' # Accessible dam storage, as shown on the BoM Water Storage dashboard
-#' \donttest{
+#' \dontrun{
 #' get_timeseries(
 #'   parameter_type = "Storage Volume",
 #'   "G8150011",
@@ -605,7 +605,7 @@ get_timeseries <- function(parameter_type,
 #' @examples
 #' # Groundwater level as stored by the BoM
 #' # PLUMB RD @ NARRABRI'
-#' \donttest{
+#' \dontrun{
 #' get_as_stored(
 #'   parameter_type = "Ground Water Level",
 #'   station_number = "GW971623.3.3",
@@ -657,7 +657,7 @@ get_as_stored <- function(parameter_type,
 #' @return A tibble with the requested return fields. Zero row tibbles are returned if no data is available for the requested dates. The aggregation of data is generally the mean for most variables, except for rainfall and evaporation which is the sum over the chosen period.
 #' @examples
 #' # Hourly streamflow Cotter River at Gingera Gauge
-#' \donttest{
+#' \dontrun{
 #' get_hourly(
 #'   parameter_type = "Water Course Discharge",
 #'   station_number = "410730",
@@ -722,7 +722,7 @@ get_hourly <- function(parameter_type,
 #' @return A tibble with the requested return fields. Zero row tibbles are returned if no data is available for the requested dates. The aggregation of data is generally the mean for most variables, except for rainfall and evaporation which is the sum over the chosen period.
 #' @examples
 #' # Download daily mean aggregated over the standard day
-#' \donttest{
+#' \dontrun{
 #' get_daily(
 #'   parameter_type = "Water Course Discharge",
 #'   station_number = "410730",
@@ -734,7 +734,7 @@ get_hourly <- function(parameter_type,
 #' }
 #'
 #' # Download daily mean aggregated between 9am to 9am
-#' \donttest{
+#' \dontrun{
 #' get_daily(
 #'   parameter_type = "Water Course Discharge",
 #'   station_number = "410730",
@@ -746,7 +746,7 @@ get_hourly <- function(parameter_type,
 #' }
 #'
 #' # Download the daily max over the standard day
-#' \donttest{
+#' \dontrun{
 #' get_daily(
 #'   parameter_type = "Water Course Discharge",
 #'   station_number = "410730",
@@ -846,7 +846,7 @@ get_daily <- function(parameter_type,
 #' @return A tibble with the requested return fields. Zero row tibbles are returned if no data is available for the requested dates. The aggregation of data is generally the mean for most variables, except for rainfall and evaporation which is the sum over the chosen period.
 #' @examples
 #' # Monthly average dry air temperature at Corin Dam
-#' \donttest{
+#' \dontrun{
 #' get_monthly(
 #'   parameter_type = "Dry Air Temperature",
 #'   station_number = "570947",
@@ -908,7 +908,7 @@ get_monthly <- function(parameter_type,
 #' @return A tibble with the requested return fields. Zero row tibbles are returned if no data is available for the requested dates. The aggregation of data is generally the mean for most variables, except for rainfall and evaporation which is the sum over the chosen period.
 #' @examples
 #' # Download annual rainfall for Cotter Hut
-#' \donttest{
+#' \dontrun{
 #' get_yearly(
 #'   parameter_type = "Rainfall",
 #'   station_number = "570946",

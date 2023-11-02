@@ -36,7 +36,7 @@ get_as_stored
 \examples{
 # Groundwater level as stored by the BoM
 # PLUMB RD @ NARRABRI'
-\donttest{
+\dontrun{
 get_as_stored(
   parameter_type = "Ground Water Level",
   station_number = "GW971623.3.3",

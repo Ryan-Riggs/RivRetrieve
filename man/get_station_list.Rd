@@ -59,15 +59,15 @@ Possible return fields for \code{get_station_list()} are:
 }
 \examples{
 # Get all Water Course Discharge Stations
-\donttest{
+\dontrun{
 get_station_list()
 }
 # Just the details for Cotter River at Gingera
-\donttest{
+\dontrun{
 get_station_list(station_number = "410730")
 }
 # Rainfall stations
-\donttest{
+\dontrun{
 get_station_list(parameter_type = "Rainfall")
 }
 # Vector of return_fields
@@ -94,7 +94,7 @@ return_fields <- c(
   "custom_attributes"
 )
 # Get all attributes for one station
-\donttest{
+\dontrun{
 get_station_list("Water Course Discharge", "410730", return_fields)
 }
 }
