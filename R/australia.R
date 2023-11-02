@@ -18,7 +18,7 @@
 #' \donttest{
 #' sites <- australia(sites = TRUE)
 #' df <- australia(sites$site[1], "stage")
-#' plot(df$Timestamp, df$Value, type='l')
+#' plot(df$Date, df$H, type='l')
 #' }
 #' @export
 australia <- function(site,
