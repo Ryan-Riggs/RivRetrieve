@@ -15,7 +15,7 @@
 #'
 #' @return data frame of discharge time-series
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' df <- france('K027401001')
 #' plot(df$Date, df$Q, type='l')
 #' }

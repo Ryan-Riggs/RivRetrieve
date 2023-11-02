@@ -36,7 +36,7 @@ data frame of discharge time-series
 Retrieve Australian gauge data
 }
 \examples{
-\dontrun{
+\donttest{
 sites <- australia(sites = TRUE)
 df <- australia(sites$site[1], "stage")
 plot(df$Timestamp, df$Value, type='l')

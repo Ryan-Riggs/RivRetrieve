@@ -36,7 +36,7 @@ data frame of discharge time-series
 Retrieve Chilean gauge data
 }
 \examples{
-\dontrun{
+\donttest{
 df <- chile('01201005')
 plot(df$Date, df$Q, type='l')
 }

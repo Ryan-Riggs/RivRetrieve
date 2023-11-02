@@ -46,11 +46,11 @@ The full list of return fields:
 }
 \examples{
 # Return parameters for a single station
-\dontrun{
+\donttest{
 get_parameter_list(station_number = "410730")
 }
 # Return available parameters for multiple stations
-\dontrun{
+\donttest{
 get_parameter_list(station_number = c("410730", "570946"))
 }
 }

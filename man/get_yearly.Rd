@@ -27,12 +27,15 @@ year (YYYY)}
 
 \item{return_fields}{Return fields}
 }
+\value{
+A tibble with the requested return fields. Zero row tibbles are returned if no data is available for the requested dates. The aggregation of data is generally the mean for most variables, except for rainfall and evaporation which is the sum over the chosen period.
+}
 \description{
 get_yearly
 }
 \examples{
 # Download annual rainfall for Cotter Hut
-\dontrun{
+\donttest{
 get_yearly(
   parameter_type = "Rainfall",
   station_number = "570946",

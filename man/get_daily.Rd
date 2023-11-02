@@ -37,12 +37,15 @@ is only available for mean discharge and total rainfall and evaporation.}
 
 \item{return_fields}{Return fields}
 }
+\value{
+A tibble with the requested return fields. Zero row tibbles are returned if no data is available for the requested dates. The aggregation of data is generally the mean for most variables, except for rainfall and evaporation which is the sum over the chosen period.
+}
 \description{
 get_daily
 }
 \examples{
 # Download daily mean aggregated over the standard day
-\dontrun{
+\donttest{
 get_daily(
   parameter_type = "Water Course Discharge",
   station_number = "410730",
@@ -54,7 +57,7 @@ get_daily(
 }
 
 # Download daily mean aggregated between 9am to 9am
-\dontrun{
+\donttest{
 get_daily(
   parameter_type = "Water Course Discharge",
   station_number = "410730",
@@ -66,7 +69,7 @@ get_daily(
 }
 
 # Download the daily max over the standard day
-\dontrun{
+\donttest{
 get_daily(
   parameter_type = "Water Course Discharge",
   station_number = "410730",

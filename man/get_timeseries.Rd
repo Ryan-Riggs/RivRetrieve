@@ -73,7 +73,7 @@ If the request is not valid it will fail.
 }
 \examples{
 # Accessible dam storage, as shown on the BoM Water Storage dashboard
-\dontrun{
+\donttest{
 get_timeseries(
   parameter_type = "Storage Volume",
   "G8150011",

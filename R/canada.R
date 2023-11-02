@@ -15,8 +15,8 @@
 #'
 #' @return data frame of discharge time-series
 #' @examples
-#' \dontrun{
-#' For the first time, you must run:
+#' \donttest{
+#' #For the first time, you must run:
 #' tidyhydat::download_hydat()
 #' df = canada("01AD003")
 #' plot(df$Date, df$Q, type='l')

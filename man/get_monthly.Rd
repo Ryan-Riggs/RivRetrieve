@@ -27,12 +27,15 @@ year (YYYY)}
 
 \item{return_fields}{Return fields}
 }
+\value{
+A tibble with the requested return fields. Zero row tibbles are returned if no data is available for the requested dates. The aggregation of data is generally the mean for most variables, except for rainfall and evaporation which is the sum over the chosen period.
+}
 \description{
 get_monthly
 }
 \examples{
 # Monthly average dry air temperature at Corin Dam
-\dontrun{
+\donttest{
 get_monthly(
   parameter_type = "Dry Air Temperature",
   station_number = "570947",

@@ -27,12 +27,15 @@ year (YYYY)}
 
 \item{return_fields}{Return fields}
 }
+\value{
+A tibble with the requested return fields. Zero row tibbles are returned if no data is available for the requested dates. The aggregation of data is generally the mean for most variables, except for rainfall and evaporation which is the sum over the chosen period.
+}
 \description{
 get_hourly
 }
 \examples{
 # Hourly streamflow Cotter River at Gingera Gauge
-\dontrun{
+\donttest{
 get_hourly(
   parameter_type = "Water Course Discharge",
   station_number = "410730",

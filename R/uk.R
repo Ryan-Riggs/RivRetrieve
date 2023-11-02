@@ -15,7 +15,7 @@
 #'
 #' @return data frame of discharge time-series
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' site <- "http://environment.data.gov.uk/hydrology/id/stations/3c5cba29-2321-4289-a1fd-c355e135f4cb"
 #' x <- uk(site, variable = "discharge")
 #' plot(x$Date, x$Q, type='l')
