@@ -36,7 +36,7 @@ data frame of discharge time-series
 Retrieve Brazilian gauge data
 }
 \examples{
-\donttest{
+\dontrun{
 df <- brazil('12650000')
 plot(df$Date, df$Q, type='l')
 }
