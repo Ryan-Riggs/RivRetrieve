@@ -36,7 +36,7 @@ data frame of discharge time-series
 Retrieve Canadian gauge data
 }
 \examples{
-\donttest{
+\dontrun{
 #For the first time, you must run:
 tidyhydat::download_hydat()
 df = canada("01AD003")

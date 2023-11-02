@@ -15,7 +15,7 @@
 #'
 #' @return data frame of discharge time-series
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' #For the first time, you must run:
 #' tidyhydat::download_hydat()
 #' df = canada("01AD003")
