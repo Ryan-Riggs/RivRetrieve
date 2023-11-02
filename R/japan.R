@@ -15,7 +15,7 @@
 #'
 #' @return data frame of discharge time-series
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' start_date <- as.Date("2019-01-01")
 #' end_date <- as.Date("2022-12-31")
 #' df <- japan("301011281104010", "discharge", start_date, end_date)

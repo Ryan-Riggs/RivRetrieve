@@ -8,7 +8,7 @@ Authors@R:
       person("Louise", "Slater", , "louise.slater@ouce.ox.ac.uk",role=c("aut"), comment = c(ORCID = "0000-0001-9416-488X")),
       person("George", "Allen", , "geoallen@vt.edu",role=c("aut"), comment = c(ORCID = "0000-0001-8301-5301"))
       )
-Description: RivRetrieve provides access to global river gauge data from a variety of national-level river agencies. The package interfaces with the national-level agency websites to provide access to river gauge locations, river discharge, and river stage. Currently, the package is available for the following countries: Australia, Brazil, Canada, Chile, France, Japan, South Africa, the United Kingdom, and the United States.
+Description: Provides access to global river gauge data from a variety of national-level river agencies. The package interfaces with the national-level agency websites to provide access to river gauge locations, river discharge, and river stage. Currently, the package is available for the following countries: Australia, Brazil, Canada, Chile, France, Japan, South Africa, the United Kingdom, and the United States.
 LazyData: true
 License: MIT + file LICENSE
 URL: https://github.com/Ryan-Riggs/RivRetrieve
