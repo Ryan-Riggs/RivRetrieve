@@ -36,7 +36,8 @@ chile <- function(site,
   start_date <- .get_start_date(start_date)
   end_date <- .get_end_date(end_date)
   column_name <- .get_column_name(variable)
-  original_data <- download_chile_data(site)
+  original_data <- try(download_chile_data(site),silent=TRUE)
+  if(is.error(original_data)){stop('This gauge does not have a record associated with it and/or the agency website is down.')}
   data <- original_data %>%
     unite("Date", "agno", "mes", "dia", sep = "-") %>%
     mutate(
