@@ -42,8 +42,8 @@ usa <- function(site,
   }
   original_data <- try(readNWISdv(
     site, param_code, start_date, end_date
-  ))
-  if(is.error(original_data)==TRUE|nrow(original_data)==0){stop('This gauge does not have a record associated with it and/or the agency website is down.')}
+  ),silent=TRUE)
+  if(is.error(original_data)==TRUE|length(original_data)==0){stop('This gauge does not have a record associated with it and/or the agency website is down.')}
   original_data <- as_tibble(original_data)
   data <- original_data %>%
     dplyr::select(3, 4) %>%
