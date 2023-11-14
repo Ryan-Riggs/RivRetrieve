@@ -1,5 +1,4 @@
 ## R CMD check results
 
-0 errors v | 0 warnings v | 6 notes x
+0 errors ✔ | 0 warnings ✔ | 3 notes ✖
 
-* This is a new release.
