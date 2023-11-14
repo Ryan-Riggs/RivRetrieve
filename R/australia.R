@@ -45,7 +45,7 @@ australia <- function(site,
   ## Retrieve data using `bomWater` package
   original_data <- try(get_daily(
     bom_variable, site, start_date, end_date
-  ))
+  ),silent=TRUE)
   if(is.error(original_data)){stop('This gauge does not have a record associated with it and/or the agency website is down.')}
 
   ## Create return object
