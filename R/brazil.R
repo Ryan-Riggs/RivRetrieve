@@ -33,7 +33,8 @@ brazil <- function(site,
   start_date <- .get_start_date(start_date)
   end_date <- .get_end_date(end_date)
   column_name <- .get_column_name(variable)
-  original_data <- download_hidroweb_data(site, variable)
+  original_data <- try(download_hidroweb_data(site, variable),silent=TRUE)
+  if(is.error(original_data)){stop('This gauge does not have a record associated with it and/or the agency website is down.')}
   data <- parse_hidroweb_data(
     original_data, variable = variable
   )
