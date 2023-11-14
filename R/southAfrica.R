@@ -35,9 +35,10 @@ southAfrica <- function(site,
   start_date <- .get_start_date(start_date)
   end_date <- .get_end_date(end_date)
   column_name <- .get_column_name(variable)
-  original_data <- download_sa_data(
+  original_data <- try(download_sa_data(
     site, variable, start_date, end_date, primary = FALSE
-  )
+  ),silent=TRUE)
+  if(is.error(original_data)|nrow(original_data)==0){stop('This gauge does not have a record associated with it and/or the agency website is down.')}
   data <- original_data %>%
     mutate(DATE = as.Date(.data$DATE, format = "%Y%m%d"))
   if (variable == "stage") {
