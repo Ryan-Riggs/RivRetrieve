@@ -1,6 +1,6 @@
 Package: RivRetrieve
 Title: Retrieve Global River Gauge Data
-Version: 0.1.2
+Version: 0.1.3
 Authors@R:
     c(person("Ryan", "Riggs", ,  "rriggs@tamu.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-6834-9469")),
       person("Simon", "Moulds", , "sim.moulds@gmail.com", role = c("aut"), comment = c(ORCID = "0000-0002-7297-482X")),
@@ -18,6 +18,7 @@ RoxygenNote: 7.2.3
 Depends:
     R (>= 4.1)
 Imports:
+    BBmisc,
     dataRetrieval,
     devtools,
     dplyr,
