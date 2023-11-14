@@ -40,9 +40,10 @@ usa <- function(site,
     param_code <- "00060"
     mult <- 0.02832 # ft3/s -> m3/s
   }
-  original_data <- readNWISdv(
+  original_data <- try(readNWISdv(
     site, param_code, start_date, end_date
-  )
+  ))
+  if(is.error(original_data)==TRUE|nrow(original_data)==0){stop('This gauge does not have a record associated with it and/or the agency website is down.')}
   original_data <- as_tibble(original_data)
   data <- original_data %>%
     dplyr::select(3, 4) %>%
