@@ -37,7 +37,7 @@ uk <- function(site,
   original_data <- try(download_uk_data(
     site, variable, start_date, end_date
   ))
-  if(is.error(original_data)==TRUE|nrow(original_data)==0){stop('This gauge does not have a record associated with it and/or the agency website is down.')}
+  if(is.error(original_data)==TRUE|length(original_data)==0){stop('This gauge does not have a record associated with it and/or the agency website is down.')}
   data <- original_data
   ## Aggregate to get daily data
   if (variable == "stage") {
