@@ -46,7 +46,7 @@ australia <- function(site,
   original_data <- try(get_daily(
     bom_variable, site, start_date, end_date
   ))
-  if(is.error(original_data)){return(print('This gauge does not have a record associated with it and/or the agency website is down.'))}
+  if(is.error(original_data)){stop('This gauge does not have a record associated with it and/or the agency website is down.')}
 
   ## Create return object
   original_data <- as_tibble(original_data)

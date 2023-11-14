@@ -34,7 +34,7 @@ france <- function(site,
   end_date <- .get_end_date(end_date)
   column_name <- .get_column_name(variable)
   original_data <- download_france_data(site, start_date, end_date)
-  if(nrow(original_data)==0){return(print('This gauge does not have a record associated with it and/or the agency website is down.'))}
+  if(nrow(original_data)==0){stop('This gauge does not have a record associated with it and/or the agency website is down.')}
   data <- original_data %>%
     mutate(
       Date = as.Date(!!sym("date_obs_elab")),
