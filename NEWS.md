@@ -1,3 +1,7 @@
+# RivRetrive 0.1.4
+
+* This update modifies the Australian retrieval code to fix a discrepancy between RivRetrieve and the Australian website. 
+
 # RivRetrive 0.1.3
 
 * This update adds informative error messages for gauges that have no available record and/or when the agency website it down.
