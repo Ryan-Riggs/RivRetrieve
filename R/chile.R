@@ -15,7 +15,7 @@
 #'
 #' @return data frame of discharge time-series
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' df <- chile('01201005')
 #' plot(df$Date, df$Q, type='l')
 #' }
