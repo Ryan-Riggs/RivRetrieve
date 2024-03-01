@@ -36,7 +36,7 @@ data frame of discharge time-series
 Retrieve USA gauge data
 }
 \examples{
-\donttest{
+\dontrun{
 df <- usa("02471078", variable="discharge")
 plot(df$Date, df$Q, type='l')
 }

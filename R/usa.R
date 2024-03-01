@@ -15,7 +15,7 @@
 #'
 #' @return data frame of discharge time-series
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' df <- usa("02471078", variable="discharge")
 #' plot(df$Date, df$Q, type='l')
 #' }

@@ -36,7 +36,7 @@ data frame of discharge time-series
 Retrieve French gauge data
 }
 \examples{
-\donttest{
+\dontrun{
 df <- france('K027401001')
 plot(df$Date, df$Q, type='l')
 }

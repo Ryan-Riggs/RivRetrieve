@@ -15,7 +15,7 @@
 #'
 #' @return data frame of discharge time-series
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' site <- "X3H023"
 #' start_date <- as.Date("2000-01-01")
 #' end_date <- as.Date("2010-01-01")
