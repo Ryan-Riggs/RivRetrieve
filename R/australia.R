@@ -49,7 +49,7 @@ australia <- function(site,
   web = 'http://www.bom.gov.au/waterdata/services?service=kisters&type=queryServices&request=getTimeseriesValues&datasource=0&format=csv&ts_id='
   website = paste0(web, id$ts_id, '&from=', start_date, 'T00:00:00.000&to=', end_date,'T00:00:00.000&returnfields=Timestamp,Value,Quality%20Code,Interpolation%20Type&language=en&downloadaszip=false&timezone=individual&csvdiv=%2C&md_returnfields=station_longname,station_no,station_latitude,station_longitude,parametertype_name,ts_name,ts_unitname,custom_attributes&custattr_returnfields=DATA_OWNER_NAME&metadata=true&downloadfilename=csv.australia_file')
   out = tempfile()
-  test = download.file(website, out, method='curl', quite=TRUE)
+  test = download.file(website, out, method='curl', quiet=TRUE)
   original_data = read.csv(out, header = TRUE,skip=9)
   if(is.error(original_data)==TRUE){stop('This gauge does not have a record associated with it and/or the agency website is down.')}
 
