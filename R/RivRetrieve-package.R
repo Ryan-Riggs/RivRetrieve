@@ -19,6 +19,7 @@
 #' @importFrom rlang .data :=
 #' @importFrom stats setNames time
 #' @importFrom utils download.file unzip
+#' @importFrom utils read.csv
 #'
 #' @examples
 #' \dontrun{
