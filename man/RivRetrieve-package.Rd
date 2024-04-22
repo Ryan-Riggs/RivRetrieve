@@ -20,7 +20,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Ryan Riggs \email{rriggs@tamu.edu} (\href{https://orcid.org/0000-0001-6834-9469}{ORCID})
+\strong{Maintainer}: Ryan Riggs \email{ryanriggs7@gmail.com} (\href{https://orcid.org/0000-0001-6834-9469}{ORCID})
 
 Authors:
 \itemize{

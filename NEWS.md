@@ -1,3 +1,7 @@
+# RivRetrive 0.1.5
+
+* This update changes the maintainer's email address to a permanent gmail account. 
+
 # RivRetrive 0.1.4
 
 * This update modifies the Australian retrieval code to fix a discrepancy between RivRetrieve and the Australian website. 
