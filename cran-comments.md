@@ -3,7 +3,7 @@
 0 errors ✔ | 0 warnings ✔ | 6 notes ✖
 
 *checking CRAN incoming feasibility ... [7s/43s] NOTE
-  Maintainer: ‘Ryan Riggs <rriggs@tamu.edu>’
+  Maintainer: ‘Ryan Riggs <ryanriggs7@gmail.com>’
   
   New submission
   
