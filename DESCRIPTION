@@ -1,6 +1,6 @@
 Package: RivRetrieve
 Title: Retrieve Global River Gauge Data
-Version: 0.1.5
+Version: 0.1.6
 Authors@R:
     c(person("Ryan", "Riggs", ,  "ryanriggs7@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-6834-9469")),
       person("Simon", "Moulds", , "sim.moulds@gmail.com", role = c("aut"), comment = c(ORCID = "0000-0002-7297-482X")),
