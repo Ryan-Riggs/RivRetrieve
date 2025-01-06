@@ -1,3 +1,7 @@
+# RivRetrive 0.1.6
+
+* Updating vignette to use US gauge data as the example. 
+
 # RivRetrive 0.1.5
 
 * This update changes the maintainer's email address to a permanent gmail account. 
