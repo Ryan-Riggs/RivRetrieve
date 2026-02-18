@@ -20,7 +20,7 @@
 #' x <- quebec(site, variable = "stage")
 #' plot(x$Date, x$H, type='l')
 #' }
-#' @import data.table
+#' @importFrom data.table fread
 #' @export
 quebec <- function(site,
                    variable,
