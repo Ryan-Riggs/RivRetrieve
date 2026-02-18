@@ -20,6 +20,7 @@ Depends:
 Imports:
     BBmisc,
     dataRetrieval,
+    data.table,
     devtools,
     dplyr,
     httr,
