@@ -20,6 +20,7 @@
 #' x <- quebec(site, variable = "stage")
 #' plot(x$Date, x$H, type='l')
 #' }
+#' @import data.table fread
 #' @export
 quebec <- function(site,
                    variable,
@@ -47,9 +48,9 @@ quebec <- function(site,
 
   if (!download_status) return(stop('This gauge does not have a record associated with it and/or the agency website is down.'))
 
-  raw_data <- read.table(out, fill = TRUE, colClasses = "character",encoding='Latin-1',check.names = FALSE,row.names=NULL)
+  raw_data <- fread(out, fill = TRUE, colClasses = "character",encoding='Latin-1')
   # Find the header row dynamically
-  header_idx <- grep('Date', raw_data[,2])
+  header_idx <- grep('Date', raw_data$V2)
 
   if (length(header_idx) == 0) {
     return(stop('This gauge does not have a record associated with it and/or the agency website is down.'))
