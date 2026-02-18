@@ -19,7 +19,6 @@ Depends:
     R (>= 4.1)
 Imports:
     BBmisc,
-    data.table,
     dataRetrieval,
     devtools,
     dplyr,
