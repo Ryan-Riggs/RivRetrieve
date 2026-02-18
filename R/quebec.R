@@ -47,7 +47,7 @@ quebec <- function(site,
 
   if (!download_status) return(stop('This gauge does not have a record associated with it and/or the agency website is down.'))
 
-  raw_data <- data.table::fread(out, fill = TRUE, colClasses = "character",encoding='Latin-1')
+  raw_data <- fread(out, fill = TRUE, colClasses = "character",encoding='Latin-1')
 
   # Find the header row dynamically
   header_idx <- grep('Date', raw_data$V2)
