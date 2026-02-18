@@ -60,9 +60,9 @@ southAfrica <- function(site,
   return(out)
 }
 
-construct_endpoint <- function(site, data_type, chunk_start_date, chunk_end_date) {
-  chunk_start_date <- format(chunk_start_date, "%Y-%m-%d")
-  chunk_end_date <- format(chunk_end_date, "%Y-%m-%d")
+construct_endpoint <- function(site, data_type, start_date, end_date) {
+  chunk_start_date <- format(start_date, "%Y-%m-%d")
+  chunk_end_date <- format(end_date, "%Y-%m-%d")
   endpoint <- paste0(
     "https://www.dws.gov.za/Hydrology/Verified/HyData.aspx?",
     "Station=", site, "100.00",
@@ -91,30 +91,19 @@ download_sa_data <- function(site,
     sort()
   n_years <- length(years)
   if (primary || (variable == "stage")) {
-    ## We have to download stage data from primary data, which
-    ## can only be downloaded one year at a time
-    chunk_size <- 1 # Chunk size = num years
-    n_chunks <- n_years
     data_type <- "Point"
     header <- c(
       "DATE", "TIME", "COR_LEVEL",
       "COR_LEVEL_QUAL", "COR_FLOW", "COR_FLOW_QUAL"
     )
   } else {
-    chunk_size <- 20
-    n_chunks <- ceiling(n_years / chunk_size)
     data_type <- "Daily"
     header <- c("DATE", "D_AVG_FR", "QUAL")
   }
   ## Number of data columns
   n_cols <- length(header)
   data_list <- list()
-  for (i in 1:n_chunks) {
-    chunk_start_date <- start_date + years((i-1) * chunk_size)
-    endpoint <- construct_endpoint(site, data_type, chunk_start_date, end_date)
-    ## data <- session(endpoint) %>%
-    ##   html_element('body') %>%
-    ##   html_text('pre')
+  endpoint = construct_endpoint(site, data_type,start_date,end_date)
     response <- GET(endpoint)
     data <- content(response) %>%
       html_element("body") %>%
@@ -137,18 +126,14 @@ download_sa_data <- function(site,
     data_sub <- lapply(data, function(x){
       sub <- x %>% str_split(' +')
       sub <- unlist(sub)
-      if (length(sub) > n_cols) {
-        sub <- sub[1:n_cols]
-      } else if (length(sub) < n_cols) {
-        sub <- c(sub[1], rep(NA, n_cols - 1))
-      }
       sub
     })
-    data <- do.call("rbind", data_sub)
+    full_values = lapply(data_sub,length)
+    data <- do.call("rbind", data_sub[full_values==3])
     colnames(data) <- header
     data <- data %>% as_tibble()
-    data_list[[i]] <- data
-  }
-  original_data <- do.call("rbind", data_list)
+  original_data <- data
   return(original_data)
 }
+
+southAfrica(site='B1H001','discharge')

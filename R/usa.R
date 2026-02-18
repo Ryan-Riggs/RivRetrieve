@@ -40,13 +40,16 @@ usa <- function(site,
     param_code <- "00060"
     mult <- 0.02832 # ft3/s -> m3/s
   }
-  original_data <- try(readNWISdv(
-    site, param_code, start_date, end_date
+  original_data <- try(read_waterdata_daily(
+    monitoring_location_id=paste0('USGS-',site),
+    parameter_code=param_code,
+    time=c(start_date,
+    end_date)
   ),silent=TRUE)
   if(is.error(original_data)==TRUE|length(original_data)==0|nrow(original_data)==0){stop('This gauge does not have a record associated with it and/or the agency website is down.')}
   original_data <- as_tibble(original_data)
   data <- original_data %>%
-    dplyr::select(3, 4) %>%
+    dplyr::select(4, 5) %>%
     setNames(c("Date", "X")) %>%
     mutate(X = as.numeric(.data$X) * mult) %>%
     rename(!!column_name := "X")
