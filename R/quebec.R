@@ -75,14 +75,3 @@ quebec <- function(site,
   return(out)
 }
 
-####################################################################
-##Example.
-####################################################################
-example=quebec(sites$`No de la station`[1],variable='discharge')
-plot(example$Date, example$Q, type='l')
-
-ryan=quebec('074903',variable='stage',start_date='2000-01-01',end_date='2010-02-05')
-plot(ryan$Date,ryan$H,type='l')
-original(example)
-original(ryan)
-
