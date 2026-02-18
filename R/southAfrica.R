@@ -114,7 +114,7 @@ download_sa_data <- function(site,
     ## the requested time period
     header_row <- grep("^DATE", data)
     if (length(header_row) == 0) {
-      next
+      stop('This gauge does not have a record associated with it and/or the agency website is down.')
     } else {
       header_row <- header_row[1]
     }
