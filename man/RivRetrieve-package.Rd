@@ -2,6 +2,7 @@
 % Please edit documentation in R/RivRetrieve-package.R
 \docType{package}
 \name{RivRetrieve-package}
+\alias{RivRetrieve}
 \alias{RivRetrieve-package}
 \title{RivRetrieve: Retrieve global river and stage data}
 \description{

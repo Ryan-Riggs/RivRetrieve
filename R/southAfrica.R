@@ -135,5 +135,3 @@ download_sa_data <- function(site,
   original_data <- data
   return(original_data)
 }
-
-southAfrica(site='B1H001','discharge')
