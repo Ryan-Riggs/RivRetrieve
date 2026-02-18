@@ -44,7 +44,9 @@ usa <- function(site,
     monitoring_location_id=paste0('USGS-',site),
     parameter_code=param_code,
     time=c(start_date,
-    end_date)
+    end_date),
+    statistic_id = "00003",
+    skipGeometry = TRUE
   ),silent=TRUE)
   if(is.error(original_data)==TRUE|length(original_data)==0|nrow(original_data)==0){stop('This gauge does not have a record associated with it and/or the agency website is down.')}
   original_data <- as_tibble(original_data)
