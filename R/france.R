@@ -53,11 +53,11 @@ france <- function(site,
 download_france_data <- function(site, start_date, end_date) {
   ## FIXME this will only download 20000 records at once, so we need to provide a method to split the download if necessary
   web <- paste0(
-    "https://hubeau.eaufrance.fr/api/v1/hydrometrie/obs_elab?code_entite=",
+    "https://hubeau.eaufrance.fr/api/v2/hydrometrie/obs_elab?code_entite=",
     site,
     "&date_debut_obs_elab=", start_date,
     "&date_fin_obs_elab=", end_date,
-    "&grandeur_hydro_elab=QmJ",
+    "&grandeur_hydro_elab=QmnJ",
     "&size=20000"
   )
   original_data <- fromJSON(web)$data

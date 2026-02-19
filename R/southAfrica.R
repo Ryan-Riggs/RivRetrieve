@@ -43,13 +43,13 @@ southAfrica <- function(site,
     mutate(DATE = as.Date(.data$DATE, format = "%Y%m%d"))
   if (variable == "stage") {
     data <- data %>%
-      mutate(across(starts_with("COR_"), as.numeric)) %>%
+      mutate(across(starts_with("COR.LEVEL"), as.numeric)) %>%
       rename(Date = "DATE") %>%
       group_by(.data$Date) %>%
-      summarize(!!column_name := mean(.data$COR_LEVEL))
+      summarize(!!column_name := mean(.data$COR.LEVEL))
   } else {
     data <- data %>%
-      rename(Date = "DATE", !!column_name := "D_AVG_FR") %>%
+      rename(Date = "DATE", !!column_name := "COR.FLOW") %>%
       dplyr::select(all_of(c("Date", column_name)))
   }
   out <- new_tibble(
@@ -60,13 +60,13 @@ southAfrica <- function(site,
   return(out)
 }
 
-construct_endpoint <- function(site, data_type, start_date, end_date) {
+construct_endpoint <- function(site, start_date, end_date) {
   chunk_start_date <- format(start_date, "%Y-%m-%d")
   chunk_end_date <- format(end_date, "%Y-%m-%d")
   endpoint <- paste0(
     "https://www.dws.gov.za/Hydrology/Verified/HyData.aspx?",
     "Station=", site, "100.00",
-    "&DataType=", data_type,
+    "&DataType=Point",
     "&StartDT=", chunk_start_date,
     "&EndDT=", chunk_end_date,
     "&SiteType=RIV"
@@ -83,54 +83,72 @@ download_sa_data <- function(site,
   start_date=as.Date(start_date)
   end_date=as.Date(end_date)
 
-  ## divide timeseries into months, because we can only
-  ## scrape data one month at a time.
-  ts <- seq(start_date, end_date, by = "1 day")
-  years <- year(ts) %>%
-    unique() %>%
-    sort()
-  n_years <- length(years)
-  if (primary || (variable == "stage")) {
-    data_type <- "Point"
-    header <- c(
-      "DATE", "TIME", "COR_LEVEL",
-      "COR_LEVEL_QUAL", "COR_FLOW", "COR_FLOW_QUAL"
-    )
-  } else {
-    data_type <- "Daily"
-    header <- c("DATE", "D_AVG_FR", "QUAL")
+  # ## divide timeseries into months, because we can only
+  # ## scrape data one month at a time.
+  # ts <- seq(start_date, end_date, by = "1 day")
+  # years <- year(ts) %>%
+  #   unique() %>%
+  #   sort()
+  # n_years <- length(years)
+  # if (primary || (variable == "stage")) {
+  #   data_type <- "Point"
+  #   header <- c(
+  #     "DATE", "TIME", "COR_LEVEL",
+  #     "COR_LEVEL_QUAL", "COR_FLOW", "COR_FLOW_QUAL"
+  #   )
+  # } else {
+  #   data_type <- "Daily"
+  #   header <- c("DATE", "D_AVG_FR", "QUAL")
+  # }
+  # ## Number of data columns
+  # n_cols <- length(header)
+  # data_list <- list()
+  endpoint = construct_endpoint(site,start_date,end_date)
+
+  tmp = tempfile()
+  download.file(endpoint,tmp)
+  data=read_delim(tmp,skip=9,delim=' ')
+  list_values=list()
+  for(i in 2:nrow(data)){
+    result = unlist(str_split(data$Level[i],' '))
+    result = na.omit(ifelse(result=='',NA,result))
+    list_values[[i]] = as.data.frame(matrix(result,ncol=4))
   }
-  ## Number of data columns
-  n_cols <- length(header)
-  data_list <- list()
-  endpoint = construct_endpoint(site, data_type,start_date,end_date)
-    response <- GET(endpoint)
-    data <- content(response) %>%
-      html_element("body") %>%
-      html_text("pre")
-    data <- str_split(data, '\n')
-    data <- unlist(data)
+  list_output=do.call('rbind',list_values)
+  end_of_data = grep('http',list_output$V1)-1
+  list_output = cbind(data[2:end_of_data,1:2],list_output[1:end_of_data,])
+  headers=unlist(str_split(data[1,],' '))
+  headers = na.omit(ifelse(headers==''|headers=='NA',NA,headers))
+  colnames(list_output) = headers
+  data=list_output
+  colnames(data)[6] = 'QUA_2'
+  # response <- GET(endpoint)
+  #   data <- content(response) %>%
+  #     html_element("body") %>%
+  #     html_text("pre")
+  # data <- str_split(data, '\n')
+  # data <- unlist(data)
     ## Find out whether there is any data for
     ## the requested time period
-    header_row <- grep("^DATE", data)
-    if (length(header_row) == 0) {
-      stop('This gauge does not have a record associated with it and/or the agency website is down.')
-    } else {
-      header_row <- header_row[1]
-    }
-    data_rows <- grep("^[0-9]{8} ", data)
-    ## Convert to list
-    data <- as.list(data)
-    ## Get header
-    data <- data[data_rows]
-    data_sub <- lapply(data, function(x){
-      sub <- x %>% str_split(' +')
-      sub <- unlist(sub)
-      sub
-    })
-    full_values = lapply(data_sub,length)
-    data <- do.call("rbind", data_sub[full_values==3])
-    colnames(data) <- header
+    # header_row <- grep("^DATE", data)
+    # if (length(header_row) == 0) {
+    #   stop('This gauge does not have a record associated with it and/or the agency website is down.')
+    # } else {
+    #   header_row <- header_row[1]
+    # }
+    # data_rows <- grep("^[0-9]{8} ", data)
+    # ## Convert to list
+    # data <- as.list(data)
+    # ## Get header
+    # data <- data[data_rows]
+    # data_sub <- lapply(data, function(x){
+    #   sub <- x %>% str_split(' +')
+    #   sub <- unlist(sub)
+    #   sub
+    # })
+    # full_values = lapply(data_sub,length)
+    # data <- do.call("rbind", data_sub[full_values==3])
+    # colnames(data) <- header
     data <- data %>% as_tibble()
   original_data <- data
   return(original_data)
