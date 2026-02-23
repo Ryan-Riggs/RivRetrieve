@@ -7,6 +7,7 @@ load("data-raw/chile_sites.rda")
 load("data-raw/french_sites.rda")
 load("data-raw/japan_sites.rda")
 load("data-raw/quebec_sites.rda")
+load("data-raw/scotland_sites.rda")
 load("data-raw/southAfrican_sites.rda")
 load("data-raw/uk_sites.rda")
 load("data-raw/usa_sites.rda")
@@ -19,6 +20,7 @@ usethis::use_data(
          french_sites,
          japan_sites,
          quebec_sites,
+         scotland_sites,
          southAfrican_sites,
          uk_sites,
          usa_sites,
