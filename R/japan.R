@@ -61,7 +61,7 @@ download_japan_data <- function(site, variable, start_date, end_date) {
   header <- NULL
   output_list=list()
   for (k in 1:length(ts)){
-    day <- dates[k]
+    #day <- dates[k]
     website <- paste0(
       base_url,
       "?KIND=", kind,
