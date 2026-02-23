@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 ## Here is a quick tutorial for RivRetrieve functions:
 
-The `RivRetrieve` package is developed to efficiently access and download global river gauge data into an R environment. While numerous river data exists, our package is currently limited to daily measurements of river stage (meters) and discharge (cubic meters per second) for: Australia, Brazil, Canada, Chile, France, Japan, Quebec, South Africa, the United Kingdom, and the United States.
+The `RivRetrieve` package is developed to efficiently access and download global river gauge data into an R environment. While numerous river data exists, our package is currently limited to daily measurements of river stage (meters) and discharge (cubic meters per second) for: Australia, Brazil, Canada, Chile, France, Ireland, Japan, Quebec, Scotland, South Africa, the United Kingdom, and the United States.
 
 ```{r setup}
 library(RivRetrieve)
