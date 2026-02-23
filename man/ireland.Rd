@@ -33,6 +33,6 @@ Retrieve Ireland gauge data
 start_date <- as.Date("1968-01-01")
 end_date <- as.Date("1970-12-31")
 df <- ireland('25014',"discharge", start_date, end_date)
-plot(df$Date, df$Q, type='l')
+plot(df$Date, df$Q)
 }
 }
