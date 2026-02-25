@@ -21,6 +21,7 @@
 #' df <- japan("301011281104090", "discharge", start_date, end_date)
 #' plot(df$Date, df$Q, type='l')
 #' }
+#' @importFrom stats na.omit
 #' @export
 japan <- function(site,
                   variable = "discharge",

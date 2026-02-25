@@ -20,6 +20,7 @@
 #' df <- australia(sites$site[1], "stage")
 #' plot(df$Date, df$H, type='l')
 #' }
+#' @importFrom stats runif
 #' @export
 australia <- function(site,
                       variable = "discharge",
