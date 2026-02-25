@@ -37,8 +37,7 @@ Retrieve Canadian gauge data
 }
 \examples{
 \dontrun{
-#For the first time, you must run:
-tidyhydat::download_hydat()
+#Note this no longer relies on tidyhydat but rather retrieves data from an API.
 df = canada("01AD003")
 plot(df$Date, df$Q, type='l')
 }
