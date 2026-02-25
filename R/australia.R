@@ -31,6 +31,7 @@ australia <- function(site,
   if (sites) {
     return(australia_sites)
   }
+  Sys.sleep(runif(1,1,3))
   start_date <- .get_start_date(start_date)
   end_date <- .get_end_date(end_date)
   column_name <- .get_column_name(variable)
