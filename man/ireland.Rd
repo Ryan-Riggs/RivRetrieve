@@ -30,9 +30,7 @@ Retrieve Ireland gauge data
 }
 \examples{
 \dontrun{
-start_date <- as.Date("1968-01-01")
-end_date <- as.Date("1970-12-31")
-df <- ireland('25014',"discharge", start_date, end_date)
+df <- ireland('25014',"discharge")
 plot(df$Date, df$Q)
 }
 }

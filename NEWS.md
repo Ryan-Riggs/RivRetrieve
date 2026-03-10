@@ -1,3 +1,7 @@
+# RivRetrive 0.1.9
+
+-   Added function to pull data from Sweden.
+
 # RivRetrive 0.1.8
 
 -   Updated Australia, France, Japan, and South Africa functions to interact with updated APIs.
