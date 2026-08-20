@@ -62,12 +62,35 @@ download_chile_data <- function(site) {
   Sys.sleep(.25)
   outpath <- tempfile()
   website <- paste0(original, site, ending)
-  file <- session(website) %>%
-    html_element("body") %>%
-    html_text("url")
-  page <- gsub("(.*)(https://.*)(\"}}})", "\\2", file) %>%
-    noquote()
-  download.file(page, outpath)
+  headers <- httr::add_headers(
+    `User-Agent` = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+  )
+
+  resp <- httr::RETRY("GET", website, headers, times = 3, quiet = TRUE)
+  httr::stop_for_status(resp, task = "request export link from explorador.cr2.cl")
+  file <- httr::content(resp, as = "text", encoding = "UTF-8")
+
+  parsed <- tryCatch(jsonlite::fromJSON(file), error = function(e) NULL)
+  if (is.null(parsed)) {
+    stop("explorador.cr2.cl did not return valid JSON; response may have changed again.")
+  }
+  if (length(parsed$errors) > 0) {
+    stop("explorador.cr2.cl reported an error: ", paste(parsed$errors, collapse = "; "))
+  }
+  rel_url <- parsed$export$series$url
+  if (is.null(rel_url) || !nzchar(rel_url)) {
+    stop("No export URL found in explorador.cr2.cl's response.")
+  }
+  page <- if (grepl("^https?://", rel_url)) {
+    rel_url
+  } else {
+    paste0("https://explorador.cr2.cl/", sub("^/", "", rel_url))
+  }
+
+  dl_resp <- httr::RETRY("GET", page, headers, httr::write_disk(outpath, overwrite = TRUE),
+                         times = 3, quiet = TRUE)
+  httr::stop_for_status(dl_resp, task = "download Chile CSV export")
+
   original_data <- read_delim(outpath, show_col_types = FALSE)
   names(original_data) <- sub("\\s+", "", names(original_data))
   original_data <- as_tibble(original_data)
