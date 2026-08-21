@@ -1,3 +1,9 @@
+# RivRetrive 0.2.0
+
+-   Updated Chile function to interact with updated API.
+-   Added function to pull data from Argentina.
+-   Added function to pull data from Germany (stage data over the past 30 days only).
+
 # RivRetrive 0.1.9
 
 -   Added function to pull data from Sweden.

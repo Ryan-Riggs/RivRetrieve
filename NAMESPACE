@@ -2,11 +2,13 @@
 
 S3method(original,rr_tbl)
 S3method(plot,rr_tbl)
+export(argentina)
 export(australia)
 export(brazil)
 export(canada)
 export(chile)
 export(france)
+export(germany)
 export(ireland)
 export(japan)
 export(original)

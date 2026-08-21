@@ -6,7 +6,7 @@
 \alias{RivRetrieve-package}
 \title{RivRetrieve: Retrieve global river and stage data}
 \description{
-Provides access to global river gauge data from a variety of national-level river agencies. The package interfaces with the national-level agency websites to provide access to river gauge locations, river discharge, and river stage. Currently, the package is available for the following countries: Australia, Brazil, Canada, Chile, France, Japan, South Africa, the United Kingdom, and the United States.
+Provides access to global river gauge data from a variety of national-level river agencies. The package interfaces with the national-level agency websites to provide access to river gauge locations, river discharge, and river stage. Currently, the package is available for the following countries: Argentina, Australia, Brazil, Canada, Chile, France, Germany, Japan, South Africa, the United Kingdom, and the United States.
 }
 \examples{
 \dontrun{
