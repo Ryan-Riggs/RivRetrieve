@@ -21,11 +21,11 @@
 #' }
 #' @export
 argentina <- function(site,
-                       variable = "discharge",
-                       start_date = NULL,
-                       end_date = NULL,
-                       sites = FALSE,
-                       ...) {
+                      variable = "discharge",
+                      start_date = NULL,
+                      end_date = NULL,
+                      sites = FALSE,
+                      ...) {
 
   if (sites) {
     return(argentina_sites)
@@ -56,7 +56,7 @@ argentina <- function(site,
   reported_unit <- original_data$unit
 
   if (variable == "stage" && !is.null(reported_unit)) {
-    if (grepl("cent[i|í]metro|^cm$", reported_unit, ignore.case = TRUE)) {
+    if (grepl("cent[i|\u00ed]metro|^cm$", reported_unit, ignore.case = TRUE)) {
       dt[[column_name]] <- dt[[column_name]] / 100
     } else if (!grepl("^m$|metro", reported_unit, ignore.case = TRUE)) {
       warning(
@@ -73,16 +73,16 @@ argentina <- function(site,
     )
   }
 
-  dt <- dt[Date >= start_date & Date <= end_date]
+  dt <- dt[dt[["Date"]] >= start_date & dt[["Date"]] <= end_date]
   if ("Measurement_type" %in% names(dt)) {
-    data.table::setorder(dt, Date, Measurement_type)
+    data.table::setorderv(dt, c("Date", "Measurement_type"))
   } else {
-    data.table::setorder(dt, Date)
+    data.table::setorderv(dt, "Date")
   }
 
   out <- new_tibble(
     tibble::as_tibble(dt),
-    original = tibble::as_tibble(original_data$raw),  # genuinely raw API fields (id, tipo, series_id, timestart, timeend, valor, etc.) -- distinct from the cleaned dt above
+    original = tibble::as_tibble(original_data$raw),
     class = "rr_tbl"
   )
   attr(out, "unit") <- reported_unit
@@ -161,8 +161,8 @@ download_argentina_data <- function(site, var_id, start_date, end_date) {
     obs_i <- jsonlite::fromJSON(httr::content(obs_resp, as = "text", encoding = "UTF-8"))
     if (length(obs_i) > 0 && nrow(obs_i) > 0) {
       obs_i <- data.table::as.data.table(obs_i)
-      obs_i[, procedimiento := all_procedimientos[i]]
-      obs_i[, series_id := all_series_ids[i]]
+      obs_i[["procedimiento"]] <- all_procedimientos[i]
+      obs_i[["series_id"]] <- all_series_ids[i]
       raw_list[[i]] <- obs_i
     }
   }
@@ -178,19 +178,19 @@ download_argentina_data <- function(site, var_id, start_date, end_date) {
   }
 
   dt <- data.table::copy(raw)
-  dt[, Date := as.Date(timestart)]
+  dt[["Date"]] <- as.Date(dt[["timestart"]])
   data.table::setnames(dt, "valor", value_col)
 
-  types_present <- unique(dt$procedimiento)
+  types_present <- unique(dt[["procedimiento"]])
   if (length(types_present) <= 1) {
     cols <- c("Date", value_col)
     dt <- dt[, cols, with = FALSE]
-    data.table::setorder(dt, Date)
+    data.table::setorderv(dt, "Date")
   } else {
     data.table::setnames(dt, "procedimiento", "Measurement_type")
     cols <- c("Date", value_col, "Measurement_type")
     dt <- dt[, cols, with = FALSE]
-    data.table::setorder(dt, Date, Measurement_type)
+    data.table::setorderv(dt, c("Date", "Measurement_type"))
   }
 
   list(dt = dt, raw = raw, unit = unit_abrev, procedimiento = all_procedimientos)
@@ -198,7 +198,6 @@ download_argentina_data <- function(site, var_id, start_date, end_date) {
 
 .ina_var_id <- function(variable) {
   if (variable == "discharge") return(40L)  # Caudal medio diario -- confirmed
-  if (variable == "stage") return(39L)      # Altura hidrométrica media diaria -- confirmed
+  if (variable == "stage") return(39L)      # Altura hidrometrica media diaria -- confirmed
   stop("variable must be either 'discharge' or 'stage'")
 }
-
