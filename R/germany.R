@@ -16,7 +16,7 @@
 #' @return data frame of discharge time-series
 #' @examples
 #' \dontrun{
-#' #Note the German API currently only provides access to stage data from the previous 30 days.
+#' #Note the German API currently only provides access to stage data from the previous 30 days, so start and end date is ignored for this function.
 #' site <- "593647aa-9fea-43ec-a7d6-6476a76ae868"
 #' stage <- germany(site, variable = "stage")
 #' plot(stage$Date, stage$H, type = "l")
@@ -38,7 +38,7 @@ germany <- function(site,
   }
   param_code  <- if (variable == "stage") "W" else "Q"
   column_name <- if (variable == "discharge") "Q" else "H"
-
+  latest_available=Sys.Date()
   end_date <- if (is.null(end_date)) Sys.Date() else as.Date(end_date)
 
   # --- PEGELONLINE-specific: clamp start_date to the 30-day window --------
@@ -50,6 +50,14 @@ germany <- function(site,
       start_date, " is earlier than that -- clamping to ", earliest_available, "."
     )
     start_date <- earliest_available
+  }
+
+  if (end_date < earliest_available|end_date>latest_available) {
+    warning(
+      "PEGELONLINE only retains 30 days of raw data. Requested end_date ",
+      end_date, " is outside of data range -- clamping to ", latest_available, "."
+    )
+    end_date <- latest_available
   }
 
   original_data <- try(
@@ -66,11 +74,9 @@ germany <- function(site,
   dt <- data.table::as.data.table(original_data)
   dt[, Date := as.Date(timestamp)]
   data.table::setnames(dt, "value", column_name)
-  dt <- dt[Date >= start_date & Date <= end_date, .SD, .SDcols = c("Date", column_name)]
-  # PEGELONLINE reports sub-daily (often 15-min) readings; collapse to a
-  # daily mean so the output matches every other RivRetrieve function's
-  # one-row-per-day convention.
-  dt <- dt[, .(value = mean(get(column_name), na.rm = TRUE)), by = Date]
+
+  dt <- dt[Date>=start_date&Date<=end_date, .(value = mean(get(column_name), na.rm = TRUE)), by = Date]
+
   data.table::setnames(dt, "value", column_name)
   data.table::setorder(dt, Date)
 

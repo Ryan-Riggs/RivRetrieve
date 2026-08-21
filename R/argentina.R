@@ -183,11 +183,13 @@ download_argentina_data <- function(site, var_id, start_date, end_date) {
 
   types_present <- unique(dt$procedimiento)
   if (length(types_present) <= 1) {
-    dt <- dt[, .SD, .SDcols = c("Date", value_col)]
+    cols <- c("Date", value_col)
+    dt <- dt[, cols, with = FALSE]
     data.table::setorder(dt, Date)
   } else {
     data.table::setnames(dt, "procedimiento", "Measurement_type")
-    dt <- dt[, .SD, .SDcols = c("Date", value_col, "Measurement_type")]
+    cols <- c("Date", value_col, "Measurement_type")
+    dt <- dt[, cols, with = FALSE]
     data.table::setorder(dt, Date, Measurement_type)
   }
 

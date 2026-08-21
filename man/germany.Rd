@@ -37,7 +37,7 @@ Retrieve German gauge data.
 }
 \examples{
 \dontrun{
-#Note the German API currently only provides access to stage data from the previous 30 days.
+#Note the German API currently only provides access to stage data from the previous 30 days, so start and end date is ignored for this function.
 site <- "593647aa-9fea-43ec-a7d6-6476a76ae868"
 stage <- germany(site, variable = "stage")
 plot(stage$Date, stage$H, type = "l")
